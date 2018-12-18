@@ -1,0 +1,25 @@
+class User
+types
+	public String = seq of char;
+	public Type = <Type1> | <Type2>;
+	
+values
+-- TODO Define values here
+instance variables
+	private username : String;
+	private type : Type;
+	private balance: int; --TODO change to float
+	
+operations
+		--Client constructor
+	public User: String * Type   ==> User
+		User(usernameC,typeC) == (
+						username := usernameC;
+						type := typeC;
+						balance := 0;
+		);
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end User

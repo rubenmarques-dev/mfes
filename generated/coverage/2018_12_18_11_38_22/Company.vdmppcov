@@ -1,0 +1,37 @@
+class Company
+types
+-- TODO Define types here
+values
+	
+instance variables
+	clients : set of Client := {};
+	employees : set of Employee := {};
+operations
+
+  -- get all clients
+	pure public getClients : () ==> set of Client
+		getClients() ==
+		return clients;
+		
+	--get all employees
+	pure public getEmployees: () ==> set of Employee
+		getEmployees() ==
+		return employees;
+		
+	public addClient :Client ==> ()
+		addClient(client) ==
+			clients := clients union {client}
+				pre client not in set clients
+				post client in set clients;
+	--public removeClient :Client ==> ()
+		--removeClient(client) ==
+			--clients := clients inter {client}
+				--pre client in set clients
+				--post client not int set clients;
+	
+
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Company
