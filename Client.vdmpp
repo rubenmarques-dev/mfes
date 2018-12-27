@@ -3,7 +3,7 @@ types
 	public String = seq of char;
 	public Type = <Type1> | <Type2>;
 	public Users = set of User;
---	public Printers = set of Printer;
+	public Printers = set of Printer;
 values
 -- TODO Define values here
 instance variables
@@ -11,7 +11,7 @@ instance variables
 	private location: String;
 	private type: Type;
 	private users : Users;
---	private printers : Printers;
+	private printers : Printers;
 operations
 	--Client constructor
 	public Client: String * String * Type  ==> Client
@@ -20,10 +20,13 @@ operations
 						location := locationC;
 						type := typeC;
 						users := {};
-				--		printers := {};
+						printers := {};
 		);
 functions
--- TODO Define functiones here
+public equals : Client * Client -> bool
+equals(c1, c2) ==
+		c1.name = c2.name and c1.location = c2.location;
+
 traces
 -- TODO Define Combinatorial Test Traces here
 end Client
