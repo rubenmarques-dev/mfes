@@ -16,6 +16,7 @@ public static main: () ==> ()
 	main() ==
 	(
 		new CompanyTests().testCompany();
+
 	);
 functions
 -- TODO Define functiones here
