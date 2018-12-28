@@ -4,16 +4,11 @@ types
 values
 	
 instance variables
-	clients : set of Client;
-	employees : set of Employee;
+	clients : set of Client := {};
+	employees : set of Employee := {};
 operations
 
-	public Company: () ==> Company
-		Company() == (
-			clients :=  {};
-			employees :=  {};
-		);
-	  -- get all clients
+  -- get all clients
 	pure public getClients : () ==> set of Client
 		getClients() ==
 		return clients;
