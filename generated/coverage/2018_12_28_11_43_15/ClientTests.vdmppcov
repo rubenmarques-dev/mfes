@@ -35,12 +35,6 @@ sameClient() ==
 	assert(Client`equals(client, client));
 );
 
-private differenteClient: () ==> ()
-differenteClient() == 
-(
-	assert( not Client`equals(client, client2));
-);
-
 private addPrinter : () ==> ()
 addPrinter() == 
 (
@@ -64,7 +58,6 @@ public static main: () ==> ()
 		new ClientTests().addPrinter();
 		new ClientTests().removePrinter();
 		new ClientTests().sameClient();
-		new ClientTests().differenteClient();
 	);
 functions
 -- TODO Define functiones here
