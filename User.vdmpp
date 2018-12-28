@@ -10,7 +10,7 @@ instance variables
 	private username : String;
 	private password : String;
 	private type : Type;
-	private balance: int; --TODO change to float
+	private balance: nat; --TODO change to float
 	private documents : Documents;
 	
 operations
@@ -24,7 +24,7 @@ operations
 						documents := [];
 		);
 		
-		
+	
 functions
 public equals : User * User -> bool
 equals(user1, user2) ==

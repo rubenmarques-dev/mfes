@@ -1,7 +1,7 @@
 class TypeDocument
 types
 Type = seq of char;
-Price = int;
+Price = nat1;
 values
 instance variables
 	private tipos : map Type to Price :=  { "Cor" |-> 9, "PB" |-> 5};
@@ -17,11 +17,11 @@ operations
 		getDomain() ==
 		return dom tipos;
 	
-	pure public getRange: () ==> set of int
+	pure public getRange: () ==> set of nat1
 		getRange() ==
 		return rng tipos;
 	
-	public getPrice: seq of char ==> int
+	public getPrice: seq of char ==> nat1
 		getPrice(type) ==
 			return tipos(type);
 		

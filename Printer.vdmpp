@@ -5,11 +5,11 @@ values
 
 instance variables
 	public location : String;
-	public sheets_remaining : int;
-	public black_remaining : int;
-	public cyan_remaining : int;
-	public yellow_remaining : int;
-	public magenta_remaining : int;
+	public sheets_remaining : nat;
+	public black_remaining : nat;
+	public cyan_remaining : nat;
+	public yellow_remaining : nat;
+	public magenta_remaining : nat;
 	public functional : bool;
 operations
 		public Printer: String  ==> Printer
