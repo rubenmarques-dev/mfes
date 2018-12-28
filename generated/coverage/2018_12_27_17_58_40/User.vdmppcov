@@ -14,7 +14,7 @@ instance variables
 	private documents : Documents;
 	
 operations
-		--User constructor
+		--Client constructor
 	public User: String * String * Type   ==> User
 		User(usernameC,passwordC,typeC) == (
 						username := usernameC;
@@ -23,13 +23,8 @@ operations
 						balance := 0;
 						documents := [];
 		);
-		
-		
 functions
-public equals : User * User -> bool
-equals(user1, user2) ==
-		user1.username = user2.username;
-
+-- TODO Define functiones here
 traces
 -- TODO Define Combinatorial Test Traces here
 end User

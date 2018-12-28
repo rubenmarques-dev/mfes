@@ -1,0 +1,60 @@
+class Company
+types
+-- TODO Define types here
+values
+	
+instance variables
+	clients : set of Client := {};
+	employees : set of Employee := {};
+operations
+
+  -- get all clients
+	pure public getClients : () ==> set of Client
+		getClients() ==
+		return clients;
+		
+	--get all employees
+	pure public getEmployees: () ==> set of Employee
+		getEmployees() ==
+		return employees;
+		
+		
+	--client functions	
+	public addClient :Client ==> ()
+		addClient(client) ==
+			clients := clients union {client}
+				pre not exists newClient in set clients & Client`equals(client, newClient)
+				post client in set clients;
+	public removeClient :Client ==> ()
+		removeClient(client) ==
+				(
+			for all currentClient in set clients do
+				if Client`equals(currentClient, client) 
+				then clients := clients \ {currentClient};
+			)
+				pre exists currentClient in set clients & Client`equals(currentClient, client)
+				post not exists currentClient  in set clients & Client`equals(currentClient, client);
+	
+	
+	--employee functions
+		public addEmployee :Employee ==> ()
+		addEmployee(employee) ==
+			employees := employees union {employee}
+				pre not exists newEmployee in set employees & Employee`equals(employee, newEmployee)
+				post employee in set employees;
+		
+		public removeEmployee :Employee ==> ()
+		removeEmployee(employee) ==
+				(
+			for all currentEmployee in set employees do
+				if Employee`equals(currentEmployee, employee) 
+				then employees := employees \ {currentEmployee};
+			)
+				pre exists currentEmployee in set employees & Employee`equals(currentEmployee, employee)
+				post not exists currentEmployee in set employees & Employee`equals(currentEmployee, employee);
+
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Company
