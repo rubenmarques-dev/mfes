@@ -6,9 +6,9 @@ values
 instance variables
 -- TODO Define instance variables here
 operations
-	protected assert: bool ==> ()
-	assert(cond) == return
-	pre cond;
+protected assert : bool ==> ()
+				assert(a) == return 
+				pre a;
 -- TODO Define operations here
 functions
 -- TODO Define functiones here

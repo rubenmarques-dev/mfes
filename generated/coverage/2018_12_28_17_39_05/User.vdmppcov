@@ -34,12 +34,12 @@ operations
 			documents := documents ^ [document]
 			post tl(documents) = [document];
 			
-	public addToBalance : nat1 ==> ()
-	 	addToBalance(amount) ==
+	public addAmountToBalance : nat1 ==> ()
+	 	addAmountToBalance(amount) ==
 	 		balance := balance + amount;
 	 
-	public withdrawFromBalance : nat1 ==> ()
-		withdrawFromBalance(amount) ==
+	public withdrawAmountFromBalance : nat1 ==> ()
+		withdrawAmountFromBalance(amount) ==
 			balance := balance - amount;
 	
 	public getUser : () ==> User

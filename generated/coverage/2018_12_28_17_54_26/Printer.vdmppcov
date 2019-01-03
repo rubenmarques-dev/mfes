@@ -1,0 +1,31 @@
+class Printer
+types
+public String = seq of char;
+values
+
+instance variables
+	public location : String;
+	public sheets_remaining : nat;
+	public black_remaining : nat;
+	public cyan_remaining : nat;
+	public yellow_remaining : nat;
+	public magenta_remaining : nat;
+	public functional : bool;
+operations
+		public Printer: String  ==> Printer
+		Printer(locationC) == (
+			location := locationC;
+			sheets_remaining := 100;
+			black_remaining := 100;
+			cyan_remaining := 100;
+			yellow_remaining := 100;
+			magenta_remaining := 100;
+			functional := true;
+		);
+functions
+public equals : Printer * Printer -> bool
+equals(printer1, printer2) ==
+		printer1.location = printer2.location;
+traces
+-- TODO Define Combinatorial Test Traces here
+end Printer
