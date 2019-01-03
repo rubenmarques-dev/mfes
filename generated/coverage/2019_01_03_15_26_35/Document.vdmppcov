@@ -1,0 +1,40 @@
+class Document
+types
+public String = seq of char;
+values
+-- TODO Define values here
+instance variables
+	private num_sheets : nat1;
+	private type : String;
+	private price : nat1 := 1;
+	private typeDocument : TypeDocument := new TypeDocument();
+	private user : User;
+operations
+	public Document: nat1 * String * User ==> Document
+		Document(numSheetsC, typeC, userC) == (
+			num_sheets := numSheetsC;
+			price := typeDocument.getPrice(typeC);
+			type := typeC;
+			user := userC;
+		);
+	
+	public getType : () ==> String
+	getType() ==
+		return type
+		post RESULT = type;
+	
+	public getTotalPrice : () ==> nat1
+	getTotalPrice() ==
+		return num_sheets * price
+		post RESULT = num_sheets * price;
+	
+		public getNumSheets : () ==> nat1
+	getNumSheets() ==
+		return num_sheets
+		post RESULT = num_sheets;
+	
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Document

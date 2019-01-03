@@ -1,0 +1,41 @@
+class DocumentTests is subclass of Tests
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+client : Client := new Client("Ruben","povoa",<Type1>);
+user : User := new User("utilizador", "password", client, <Type1>);
+document1 : Document := new Document(6, "PB", user);
+typeDocument : TypeDocument := new TypeDocument();
+operations
+
+public testTotalPrice : () ==> ()
+testTotalPrice() ==
+(
+	assert( document1.getTotalPrice() = document1.getNumSheets() * typeDocument.getPrice(document1.getType()));
+);
+
+public testgetType : () ==> ()
+testgetType() ==
+(
+	assert( document1.getType() = "PB");
+);
+
+public testgetNumSheets : () ==> ()
+testgetNumSheets() ==
+(
+	assert( document1.getNumSheets() = 6);
+);
+public static main: () ==> ()
+	main() ==
+	(
+		new DocumentTests().testgetType();
+		new DocumentTests().testTotalPrice();
+		new DocumentTests().testgetNumSheets();
+	);
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end DocumentTests

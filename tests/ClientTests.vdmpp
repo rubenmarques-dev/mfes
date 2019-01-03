@@ -4,10 +4,10 @@ types
 values
 -- TODO Define values here
 instance variables
-client : Client := new Client("Ruben","povoa",<Type1>);
-client2 : Client := new Client("Pedro","porto",<Type1>);
-user1 : User := new User("Username1","password", client, <Type1>);
-user2 : User := new User("Username2","password", client, <Type1>);
+client : Client := new Client("Ruben","povoa");
+client2 : Client := new Client("Pedro","porto");
+user1 : User := new User("Username1","password", client);
+user2 : User := new User("Username2","password", client);
 printer1 : Printer := new Printer("Escritório");
 printer2 : Printer := new Printer("Recepcao");
 operations

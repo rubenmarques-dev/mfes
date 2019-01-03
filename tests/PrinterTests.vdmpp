@@ -5,10 +5,10 @@ values
 -- TODO Define values here
 instance variables
 printer : Printer := new Printer("FEUP");
-client : Client := new Client("Ruben","povoa",<Type1>);
-user1 : User := new User("utilizador1", "password", client, <Type1>);
-user2 : User := new User("utilizador2", "password", client, <Type1>);
-
+client : Client := new Client("Ruben","povoa");
+user1 : User := new User("utilizador1", "password", client);
+user2 : User := new User("utilizador2", "password", client);
+document1 : Document;
 operations
 
 private testFunctionalPrinter : () ==> ()
@@ -53,6 +53,21 @@ printer.logout();
 assert(printer.getUserLogged() = nil);
 );
 
+private testPossiblePrintBlackDocument: () ==> ()
+testPossiblePrintBlackDocument() ==
+(
+document1 := user1.createBlackDocument(6);
+assert(printer.possiblePrintBlackDocument(document1) = false);
+printer.login(user1);
+assert(printer.possiblePrintBlackDocument(document1) = false);
+user1.addToBalance(25);
+assert(printer.possiblePrintBlackDocument(document1) = false);
+user1.addToBalance(5);
+assert(printer.possiblePrintBlackDocument(document1) = true);
+printer.functional := false;
+assert(printer.possiblePrintBlackDocument(document1) = false);
+);
+
 
 
 public static main: () ==> ()
@@ -64,6 +79,7 @@ public static main: () ==> ()
 		new PrinterTests().testHaveNoUserLogged();
 		new PrinterTests().testLogin();
 		new PrinterTests().testLogout();
+		new PrinterTests().testPossiblePrintBlackDocument();
 	);
 functions
 -- TODO Define functiones here

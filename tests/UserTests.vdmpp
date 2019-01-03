@@ -4,9 +4,9 @@ types
 values
 
 instance variables
-client : Client := new Client("Ruben","povoa",<Type1>);
-user : User := new User("utilizador", "password", client, <Type1>);
-document1 : Document := new Document(6, "PB");
+client : Client := new Client("Ruben","povoa");
+user : User := new User("utilizador", "password", client);
+document1 : Document := new Document(6, "PB", user);
 documentPB : Document;
 documentCor : Document;
 operations
