@@ -1,0 +1,41 @@
+class PrinterTests is subclass of Tests
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+printer : Printer := new Printer("FEUP");
+operations
+
+private testFunctionalPrinter : () ==> ()
+testFunctionalPrinter() ==
+(
+	assert(printer.checkFunctionalPrinter() = true);
+);
+
+private testHasBlack : () ==> ()
+testHasBlack() == 
+(
+	assert(printer.checkValidPrintBlack(200) = false);
+);
+
+private testHasColor : () ==> ()
+testHasColor() == 
+(
+	assert(printer.checkValidPrintColor(100) = true);
+);
+
+
+
+public static main: () ==> ()
+	main() ==
+	(
+		new PrinterTests().testFunctionalPrinter();
+		new PrinterTests().testHasBlack();
+		new PrinterTests().testHasColor();
+	);
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end PrinterTests

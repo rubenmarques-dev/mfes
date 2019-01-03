@@ -22,6 +22,23 @@ operations
 			magenta_remaining := 100;
 			functional := true;
 		);
+		
+		public checkValidPrintBlack :nat1 ==> bool
+		checkValidPrintBlack(sheets) ==
+			return black_remaining>=sheets and sheets_remaining>=sheets
+				post RESULT=true or RESULT=false;
+				
+		public checkValidPrintColor :nat1 ==> bool
+		checkValidPrintColor(sheets) == 
+			return black_remaining>=sheets and cyan_remaining>=sheets and yellow_remaining>=sheets and 
+						magenta_remaining>=sheets and sheets_remaining>=sheets
+				post RESULT=true or RESULT=false;
+				
+		public checkFunctionalPrinter : () ==> bool
+		checkFunctionalPrinter() ==
+			return functional=true
+				post RESULT=true or RESULT=false;
+				
 functions
 public equals : Printer * Printer -> bool
 equals(printer1, printer2) ==
