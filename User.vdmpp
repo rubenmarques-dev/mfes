@@ -1,7 +1,7 @@
 class User
 types
 	public String = seq of char;
-	public Documents = seq of Document;
+	public Documents = set of Document;
 	
 values
 -- TODO Define values here
@@ -20,36 +20,49 @@ operations
 						password := passwordC;
 						balance := 0;
 						client := clientC;
-						documents := [];
+						documents := {};
 		);
 		
 	--documents functions
-	pure public getDocuments:() ==> seq of Document
+	pure public getDocuments:() ==> set of Document
 	getDocuments() ==
 	 return documents;
 	 
-	public createBlackDocument: nat1 ==> Document
-	createBlackDocument(num_sheets) == (
+	public createBlackDocument: nat1 * String ==> Document
+	createBlackDocument(num_sheets, title) == (
 		dcl document : Document;
-		document  := new Document(num_sheets, "PB", self);
+		document  := new Document(num_sheets, "PB", title, self);
 		addDocument(document);
 		return document;
 	 );
 	 
-	public createColorDocument: nat1 ==> Document
-	createColorDocument(num_sheets) == (
+	public createColorDocument: nat1 * String ==> Document
+	createColorDocument(num_sheets, title) == (
 		dcl document : Document;
-		document  := new Document(num_sheets, "Cor", self);
+		document  := new Document(num_sheets, "Cor", title, self);
 		addDocument(document);
 		return document;
 	 );
 	 
 	public addDocument : Document ==> ()
 		addDocument(document) ==
-			documents := [document] ^ documents 
-			post hd(documents) = document;
+			documents := documents union  {document}
+		pre not exists newDocument in set documents & Document`equals(document, newDocument)
+		post document in set documents;
 	
+	public removeDocument : Document ==> ()
+		removeDocument(document) ==
+			for all curentDocument in set documents do
+				if Document`equals(curentDocument, document) 
+				then documents := documents \ {curentDocument}
+		pre exists curentDocument in set documents & Document`equals(curentDocument, document)
+		post not  exists curentDocument in set documents & Document`equals(curentDocument, document);
+
 	
+	public hasDocument : Document ==> bool
+		hasDocument(document) ==
+			return document in set documents
+		post RESULT = true or RESULT = false;
 	
 	public addToBalance : nat1 ==> ()
 	 	addToBalance(amount) ==

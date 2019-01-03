@@ -6,7 +6,7 @@ values
 instance variables
 client : Client := new Client("Ruben","povoa");
 user : User := new User("utilizador", "password", client);
-document1 : Document := new Document(6, "PB", user);
+document1 : Document := new Document(6, "PB", "title",  user);
 documentPB : Document;
 documentCor : Document;
 operations
@@ -35,24 +35,36 @@ private testAddDocument : () ==> ()
 testAddDocument() ==
 (
 user.addDocument(document1);
-assert(hd(user.getDocuments()) = document1);
+assert(( document1 in set user.getDocuments() ) = true);
 );
 
 private testCreateBlackDocument : () ==> ()
 testCreateBlackDocument() ==
 (
-documentPB := user.createBlackDocument(6) ;
-assert(hd(user.getDocuments()) = documentPB);
+documentPB := user.createBlackDocument(6, "title_pb") ;
+assert(( documentPB in set user.getDocuments() ) = true);
 );
 
 private testCreateColorDocument : () ==> ()
 testCreateColorDocument() ==
 (
-documentPB := user.createBlackDocument(6) ;
-assert(hd(user.getDocuments()) = documentPB);
-documentCor := user.createColorDocument(6) ;
-assert(hd(user.getDocuments()) = documentCor);
+documentPB := user.createBlackDocument(6, "title_pb") ;
+assert(( documentPB in set user.getDocuments() ) = true);
+documentCor := user.createColorDocument(6, "title_cor") ;
+assert( (documentCor in set user.getDocuments()) = true);
 );
+
+private testRemoveDocument : () ==> ()
+testRemoveDocument() ==
+(
+user.addDocument(document1);
+assert(( document1 in set user.getDocuments() ) = true);
+user.removeDocument(document1);
+assert(( document1 in set user.getDocuments() ) = false);
+
+);
+
+
 
 public static main: () ==> ()
 	main() ==

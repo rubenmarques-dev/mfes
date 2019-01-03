@@ -4,16 +4,18 @@ public String = seq of char;
 values
 -- TODO Define values here
 instance variables
-	private num_sheets : nat1;
+	public num_sheets : nat1;
 	private type : String;
+	private title : String;
 	private price : nat1 := 1;
 	private typeDocument : TypeDocument := new TypeDocument();
 	private user : User;
 operations
-	public Document: nat1 * String * User ==> Document
-		Document(numSheetsC, typeC, userC) == (
+	public Document: nat1 * String * String * User ==> Document
+		Document(numSheetsC, typeC, titleC, userC) == (
 			num_sheets := numSheetsC;
 			price := typeDocument.getPrice(typeC);
+			title := titleC;
 			type := typeC;
 			user := userC;
 		);
@@ -38,7 +40,9 @@ operations
 		return user
 		post RESULT = user;
 functions
--- TODO Define functiones here
+public equals : Document * Document -> bool
+equals(d1, d2) ==
+		d1.type = d2.type and d1.title = d2.title and d1.num_sheets = d2.num_sheets;
 traces
 -- TODO Define Combinatorial Test Traces here
 end Document

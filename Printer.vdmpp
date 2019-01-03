@@ -67,6 +67,26 @@ operations
 			and checkValidPrintBlack(document.getNumSheets())
 			and functional
 			and user = document.getUser();
+	
+		public possiblePrintColorDocument: Document ==> bool
+		possiblePrintColorDocument(document) ==
+		return document.getTotalPrice() <= document.getUser().getBalance() 
+			and checkValidPrintColor(document.getNumSheets())
+			and functional
+			and user = document.getUser();
+			
+		
+		public printBlackDocument : Document ==> ()
+		printBlackDocument(document) ==
+		(
+		sheets_remaining := sheets_remaining - document.getNumSheets();
+		black_remaining := black_remaining - document.getNumSheets();
+		document.getUser().withdrawFromBalance(document.getTotalPrice())
+		)
+		pre sheets_remaining >= document.num_sheets and black_remaining >= document.num_sheets;
+		
+		
+		
 			
 		
 functions
