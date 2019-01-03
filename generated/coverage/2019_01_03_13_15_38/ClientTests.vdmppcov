@@ -1,0 +1,91 @@
+class ClientTests is subclass of Tests
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+client : Client := new Client("Ruben","povoa",<Type1>);
+client2 : Client := new Client("Pedro","porto",<Type1>);
+user1 : User := new User("Username1","password", client, <Type1>);
+user2 : User := new User("Username2","password", client, <Type1>);
+printer1 : Printer := new Printer("Escritório");
+printer2 : Printer := new Printer("Recepcao");
+operations
+private testClient : () ==> ()
+testClient() ==
+(
+	assert(client.getUsers() = {});
+	assert(client.getPrinters() = {});
+);
+private addUser : () ==> ()
+addUser() == 
+(
+	client.addUser(user1);
+	assert(user1  in set client.getUsers());
+);
+private removeUser : () ==> ()
+removeUser() == 
+(
+	client.addUser(user1);
+	assert(user1  in set client.getUsers());
+	client.removeUser(user1);
+	assert(user1 not in set client.getUsers());
+);
+private sameClient: () ==> ()
+sameClient() == 
+(
+	assert(Client`equals(client, client));
+);
+
+private differenteClient: () ==> ()
+differenteClient() == 
+(
+	assert( not Client`equals(client, client2));
+);
+
+private addPrinter : () ==> ()
+addPrinter() == 
+(
+	client.addPrinter(printer1);
+	assert(printer1  in set client.getPrinters());
+);
+
+private removePrinter : () ==> ()
+removePrinter () == 
+(
+	client.addPrinter(printer1);
+	assert(printer1 in set client.getPrinters());
+	client.removePrinter(printer1);
+	assert(printer1 not in set client.getPrinters());
+);
+
+private testGetFreePrinter : () ==> ()
+testGetFreePrinter() == 
+(
+printer1.login(user1);
+client.addPrinter(printer1);
+client.addPrinter(printer2);
+assert(client.getFreePrinter() = printer2);
+
+);
+
+
+
+
+public static main: () ==> ()
+	main() ==
+	(
+		new ClientTests().testClient();
+		new ClientTests().addUser();
+		new ClientTests().removeUser();
+		new ClientTests().addPrinter();
+		new ClientTests().removePrinter();
+		new ClientTests().sameClient();
+		new ClientTests().differenteClient();
+		new ClientTests().testGetFreePrinter();
+	);
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end ClientTests

@@ -1,0 +1,73 @@
+class ClientTests is subclass of Tests
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+client : Client := new Client("Ruben","povoa",<Type1>);
+client2 : Client := new Client("Pedro","porto",<Type1>);
+user : User := new User("Username","password", client, <Type1>);
+printer : Printer := new Printer("Escritório");
+operations
+private testClient : () ==> ()
+testClient() ==
+(
+	assert(client.getUsers() = {});
+	assert(client.getPrinters() = {});
+);
+private addUser : () ==> ()
+addUser() == 
+(
+	client.addUser(user);
+	assert(user  in set client.getUsers());
+);
+private removeUser : () ==> ()
+removeUser() == 
+(
+	client.addUser(user);
+	assert(user  in set client.getUsers());
+	client.removeUser(user);
+	assert(user not in set client.getUsers());
+);
+private sameClient: () ==> ()
+sameClient() == 
+(
+	assert(Client`equals(client, client));
+);
+
+private differenteClient: () ==> ()
+differenteClient() == 
+(
+	assert( not Client`equals(client, client2));
+);
+
+private addPrinter : () ==> ()
+addPrinter() == 
+(
+	client.addPrinter(printer);
+	assert(printer  in set client.getPrinters());
+);
+removePrinter () == 
+(
+	client.addPrinter(printer);
+	assert(printer in set client.getPrinters());
+	client.removePrinter(printer);
+	assert(printer not in set client.getPrinters());
+);
+
+public static main: () ==> ()
+	main() ==
+	(
+		new ClientTests().testClient();
+		new ClientTests().addUser();
+		new ClientTests().removeUser();
+		new ClientTests().addPrinter();
+		new ClientTests().removePrinter();
+		new ClientTests().sameClient();
+		new ClientTests().differenteClient();
+	);
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end ClientTests

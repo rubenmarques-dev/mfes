@@ -1,0 +1,22 @@
+class Employee
+types
+	public String = seq of char;
+	public Problems = set of Problem;
+values
+
+instance variables
+	private name : String;
+	private problems : Problems;
+operations
+	public Employee : String ==> Employee
+		Employee(nameC) == (
+		name := nameC;
+		problems := {};
+		);
+functions
+public equals : Employee * Employee -> bool
+equals(employee1, employee2) ==
+		employee1.name = employee2.name;
+traces
+-- TODO Define Combinatorial Test Traces here
+end Employee
