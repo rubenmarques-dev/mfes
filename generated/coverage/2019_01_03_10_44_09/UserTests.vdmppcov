@@ -24,7 +24,7 @@ assert(user.getBalance() = 22);
 private testGetUsername : () ==> ()
 testGetUsername() ==
 (
-assert(user.getUsername() = "utilizador");
+assert(user.getUsername() = "utilizado");
 );
 public static main: () ==> ()
 	main() ==
