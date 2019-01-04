@@ -5,7 +5,7 @@ types
 values
 
 instance variables
-	private name : String;
+	public name : String;
 	private problems : Problems;
 operations
 	public Employee : String ==> Employee
@@ -13,6 +13,31 @@ operations
 		name := nameC;
 		problems := {};
 		);
+		
+		
+		public addProblem : Problem ==> ()
+			addProblem(problem) ==
+				problems := problems union {problem}
+			pre not exists newProblem in set problems & Problem`equals(problem, newProblem)
+			post problem in set problems;
+	
+			
+		public removeProblem : Problem ==> ()
+			removeProblem(problem) ==
+				for all currentProblem in set problems do
+					if Problem`equals(currentProblem, problem) 
+					then problems := problems \ {currentProblem}
+				pre exists currentProblem in set problems & Problem`equals(currentProblem, problem)
+				post not exists currentProblem  in set problems & Problem`equals(currentProblem, problem);
+	
+		
+		
+		public getNumProblems : () ==> nat
+		getNumProblems() ==
+			return card problems;
+			
+		
+			
 functions
 public equals : Employee * Employee -> bool
 equals(employee1, employee2) ==

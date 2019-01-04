@@ -1,18 +1,31 @@
 class Company
 types
--- TODO Define types here
+public String = seq of char;
 values
 	
 instance variables
 	clients : set of Client;
-	employees : set of Employee;
+	employees : set of Employee := {};
 operations
 
 	public Company: () ==> Company
 		Company() == (
 			clients :=  {};
-			employees :=  {};
+			initiateEmployess();
 		);
+		
+		public initiateEmployess: () ==> ()
+		initiateEmployess() ==
+		(
+		dcl employee1 : Employee;
+		dcl employee2 : Employee;
+		employee1 := new Employee("Joao");
+		employee2 := new Employee("Carlos");
+		addEmployee(employee1);
+		addEmployee(employee2);
+		);
+	
+	
 	  -- get all clients
 	pure public getClients : () ==> set of Client
 		getClients() ==
@@ -25,9 +38,11 @@ operations
 		
 		
 	--client functions	
+	
+
 	public addClient :Client ==> ()
 		addClient(client) ==
-			clients := clients union {client}
+				clients := clients union {client}
 				pre not exists newClient in set clients & Client`equals(client, newClient)
 				post client in set clients;
 	public removeClient :Client ==> ()
@@ -47,6 +62,7 @@ operations
 			employees := employees union {employee}
 				pre not exists newEmployee in set employees & Employee`equals(employee, newEmployee)
 				post employee in set employees;
+				
 		
 		public removeEmployee :Employee ==> ()
 		removeEmployee(employee) ==
@@ -57,6 +73,26 @@ operations
 			)
 				pre exists currentEmployee in set employees & Employee`equals(currentEmployee, employee)
 				post not exists currentEmployee in set employees & Employee`equals(currentEmployee, employee);
+				
+	public getEmployeeLessBusy : () ==> Employee
+	getEmployeeLessBusy() == (
+	dcl lessBusy : [Employee] := nil;
+	for all employee in set employees do
+	 if lessBusy = nil
+	 then lessBusy := employee
+	 else (if lessBusy.getNumProblems() > employee.getNumProblems() then lessBusy := employee);
+	return  lessBusy;
+	);	
+	
+	public getEmployee : String ==> Employee
+	getEmployee(name) ==
+	(
+	dcl employee : [Employee] := nil;
+	for all current in set employees do
+	 if current.name = name
+	 then employee := current;
+	return employee;
+	);
 
 functions
 -- TODO Define functiones here

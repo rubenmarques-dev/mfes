@@ -4,7 +4,8 @@ types
 values
 
 instance variables
-client : Client := new Client("Ruben","povoa");
+company : Company := new Company();
+client : Client := new Client("Ruben","povoa", company);
 user : User := new User("utilizador", "password", client);
 document1 : Document := new Document(6, "PB", "title",  user);
 documentPB : Document;

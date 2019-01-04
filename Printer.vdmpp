@@ -11,10 +11,11 @@ instance variables
 	public yellow_remaining : nat;
 	public magenta_remaining : nat;
 	public functional : bool;
-	public user : [User] := nil;
+	public userLogged : [User] := nil;
+	public client : [Client];
 operations
-		public Printer: String  ==> Printer
-		Printer(locationC) == (
+		public Printer: String * Client  ==> Printer
+		Printer(locationC, clientC) == (
 			location := locationC;
 			sheets_remaining := 100;
 			black_remaining := 100;
@@ -22,6 +23,7 @@ operations
 			yellow_remaining := 100;
 			magenta_remaining := 100;
 			functional := true;
+			client := clientC;
 		);
 		
 		public checkValidPrintBlack :nat1 ==> bool
@@ -43,22 +45,22 @@ operations
 				
 	 	public login: User ==> ()
 		login(u) ==
-	 		user := if user = nil then u else user;
+	 		userLogged := if userLogged = nil then u else userLogged;
 	 		
 	 	public getUserLogged: () ==> [User]
 		getUserLogged() ==
-	 		return user
-	 		post RESULT = user;
+	 		return userLogged
+	 		post RESULT = userLogged;
 
 	public logout: () ==> ()
 	logout() ==
-	 user := nil
-	 pre user <> nil
-	 post user = nil;
+	 userLogged := nil
+	 pre userLogged <> nil
+	 post userLogged = nil;
 	
 	public isFree: () ==> bool
 	isFree() ==
-		return user = nil
+		return userLogged = nil
 		post RESULT = true or RESULT = false;		
 		
 	public possiblePrintBlackDocument: Document ==> bool
@@ -66,15 +68,24 @@ operations
 		return document.getTotalPrice() <= document.getUser().getBalance() 
 			and checkValidPrintBlack(document.getNumSheets())
 			and functional
-			and user = document.getUser();
+			and userLogged = document.getUser();
 	
 		public possiblePrintColorDocument: Document ==> bool
 		possiblePrintColorDocument(document) ==
 		return document.getTotalPrice() <= document.getUser().getBalance() 
 			and checkValidPrintColor(document.getNumSheets())
 			and functional
-			and user = document.getUser();
+			and userLogged = document.getUser();
 			
+		
+		public printDocument : Document ==> ()
+		printDocument(document) ==
+		(
+		(if document.getType() = "PB"
+			then printBlackDocument(document)
+			else printColorDocument(document));
+				stillFunctional();
+		);
 		
 		public printBlackDocument : Document ==> ()
 		printBlackDocument(document) ==
@@ -85,7 +96,40 @@ operations
 		)
 		pre sheets_remaining >= document.num_sheets and black_remaining >= document.num_sheets;
 		
+		public printColorDocument : Document ==> ()
+		printColorDocument(document) ==
+		(
+		sheets_remaining := sheets_remaining - document.getNumSheets();
+		black_remaining := black_remaining - document.getNumSheets();
+		cyan_remaining := cyan_remaining - document.getNumSheets();
+		yellow_remaining := yellow_remaining - document.getNumSheets();
+		magenta_remaining := magenta_remaining - document.getNumSheets();
+		document.getUser().withdrawFromBalance(document.getTotalPrice());
+
+		)
+		pre sheets_remaining >= document.num_sheets and black_remaining >= document.num_sheets;
 		
+		public stillFunctional: () ==> ()
+		stillFunctional() == 
+		(
+		if    sheets_remaining < 10
+			 or black_remaining < 10
+			 or cyan_remaining < 10
+			 or yellow_remaining < 10
+			 or magenta_remaining < 10
+			 then ( functional := false; 
+			 (
+			 dcl problem : Problem;
+			 dcl employee : Employee;
+			 problem := new Problem("resources needed", self);
+			 employee := client.company.getEmployeeLessBusy();
+			 employee.addProblem(problem);
+			 ))
+		);
+		
+		
+		
+
 		
 			
 		

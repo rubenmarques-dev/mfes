@@ -10,14 +10,16 @@ instance variables
 	private location: String;
 	private users : Users;
 	private printers : Printers;
+	public company : [Company] := nil;
 operations
 	--Client constructor
-	public Client: String * String   ==> Client
-		Client(nameC,locationC) == (
+	public Client: String * String * Company ==> Client
+		Client(nameC,locationC, companyC) == (
 						name := nameC;
 						location := locationC;
 						users := {};
 						printers := {};
+						company := companyC;
 		);
 		
 		--users operations
@@ -41,8 +43,7 @@ operations
 			pre exists currentUser in set users & User`equals(currentUser, user)
 			post not exists currentUser  in set users & User`equals(currentUser, user);
 	
-	
-		
+
 		
 		--printer operations
 		-- get all printers

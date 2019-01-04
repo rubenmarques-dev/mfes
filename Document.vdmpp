@@ -39,6 +39,8 @@ operations
 	getUser() ==
 		return user
 		post RESULT = user;
+		
+		
 functions
 public equals : Document * Document -> bool
 equals(d1, d2) ==

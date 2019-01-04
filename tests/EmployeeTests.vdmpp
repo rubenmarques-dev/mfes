@@ -1,0 +1,35 @@
+class EmployeeTests is subclass of Tests
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+company : Company := new Company();
+client : Client := new Client("Ruben","povoa", company);
+printer : Printer := new Printer("FEUP", client);
+employee : Employee := new Employee("Joao");
+problem1 : Problem := new Problem("descricao", printer);
+problem2 : Problem := new Problem("descricao2", printer);
+operations
+
+public testNumProblems : () ==> ()
+testNumProblems() ==
+(
+assert(employee.getNumProblems() = 0);
+employee.addProblem(problem1);
+assert(employee.getNumProblems() = 1);
+employee.addProblem(problem2);
+assert(employee.getNumProblems() = 2);
+employee.removeProblem(problem2);
+assert(employee.getNumProblems() = 1);
+);
+public static main: () ==> ()
+	main() ==
+	(
+		new EmployeeTests().testNumProblems();
+	);
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end EmployeeTests

@@ -15,8 +15,12 @@ operations
 			printer := printerC;
 			solved := false;
 		);
+		
+		
 functions
--- TODO Define functiones here
+public equals : Problem * Problem -> bool
+equals(p1, p2) ==
+		p1.description = p2.description and p1.printer = p2.printer and p1.solved = p2.solved;
 traces
 -- TODO Define Combinatorial Test Traces here
 end Problem

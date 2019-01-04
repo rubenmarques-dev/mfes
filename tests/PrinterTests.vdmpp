@@ -4,11 +4,13 @@ types
 values
 -- TODO Define values here
 instance variables
-printer : Printer := new Printer("FEUP");
-client : Client := new Client("Ruben","povoa");
+company : Company := new Company();
+client : Client := new Client("Ruben","povoa", company);
+printer : Printer := new Printer("FEUP", client);
 user1 : User := new User("utilizador1", "password", client);
 user2 : User := new User("utilizador2", "password", client);
 document1 : Document;
+employee : Employee;
 operations
 
 private testFunctionalPrinter : () ==> ()
@@ -83,6 +85,58 @@ printer.functional := false;
 assert(printer.possiblePrintColorDocument(document1) = false);
 );
 
+private testPrintBlackDocument: () ==> ()
+testPrintBlackDocument() ==
+(
+document1 := user1.createBlackDocument(6, "title_pb");
+user1.addToBalance(30);
+printer.printBlackDocument(document1);
+assert(user1.getBalance() = 0);
+assert(printer.black_remaining = 94);
+assert(printer.sheets_remaining = 94);
+);
+
+private testPrintColorDocument: () ==> ()
+testPrintColorDocument() ==
+(
+document1 := user1.createColorDocument(10, "title_pb");
+user1.addToBalance(90);
+printer.printColorDocument(document1);
+assert(user1.getBalance() = 0);
+assert(printer.black_remaining = 90);
+assert(printer.cyan_remaining = 90);
+assert(printer.yellow_remaining = 90);
+assert(printer.magenta_remaining = 90);
+assert(printer.sheets_remaining = 90);
+);
+
+private testPrintDocument: () ==> ()
+testPrintDocument() == (
+user1.addToBalance(102);
+document1 := user1.createBlackDocument(6, "title_pb");
+printer.printDocument(document1);
+assert(printer.black_remaining = 94);
+assert(printer.sheets_remaining = 94);
+assert(user1.getBalance() = 72);
+document1 := user1.createColorDocument(8, "title_cor");
+printer.printDocument(document1);
+assert(printer.black_remaining = 86);
+assert(printer.sheets_remaining = 86);
+assert(printer.cyan_remaining = 92);
+assert(printer.yellow_remaining = 92);
+assert(printer.magenta_remaining = 92);
+assert(user1.getBalance() = 0);
+);
+
+private testCreateProblem: () ==> ()
+testCreateProblem() == (
+user1.addToBalance(455);
+document1 := user1.createBlackDocument(91, "title_pb");
+printer.printDocument(document1);
+employee := printer.client.company.getEmployee("Joao");
+assert(employee.getNumProblems() = 1);
+);
+
 
 
 public static main: () ==> ()
@@ -96,6 +150,10 @@ public static main: () ==> ()
 		new PrinterTests().testLogout();
 		new PrinterTests().testPossiblePrintBlackDocument();
 		new PrinterTests().testPossiblePrintColorDocument();
+		new PrinterTests().testPrintBlackDocument();
+		new PrinterTests().testPrintColorDocument();
+		new PrinterTests().testPrintDocument();
+		new PrinterTests().testCreateProblem();
 	);
 functions
 -- TODO Define functiones here
