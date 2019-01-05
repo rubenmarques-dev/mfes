@@ -5,11 +5,11 @@ import org.overture.codegen.runtime.*;
 @SuppressWarnings("all")
 public class Document {
   public Number num_sheets;
-  private String type;
-  private String title;
-  private Number price = 1L;
+  public String type;
+  public String title;
+  public Number price = 1L;
   private TypeDocument typeDocument = new TypeDocument();
-  private User user;
+  public User user;
 
   public void cg_init_Document_1(
       final Number numSheetsC, final String typeC, final String titleC, final User userC) {

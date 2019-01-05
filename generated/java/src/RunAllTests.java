@@ -9,7 +9,9 @@ public class RunAllTests {
     new ClientTests().main();
     new CompanyTests().main();
     new DocumentTests().main();
+    new EmployeeTests().main();
     new PrinterTests().main();
+    new ProblemTests().main();
     new TypeDocumentTests().main();
     new UserTests().main();
   }

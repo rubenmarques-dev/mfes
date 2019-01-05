@@ -101,6 +101,19 @@ public class Client {
     return ((Printer) freePrinters.get(0));
   }
 
+  public VDMSet getNoFunctionalPrinters() {
+
+    VDMSet noFunctionalPrinters = SetUtil.set();
+    for (Iterator iterator_24 = printers.iterator(); iterator_24.hasNext(); ) {
+      Printer currentPrinter = (Printer) iterator_24.next();
+      if (Utils.equals(currentPrinter.functional, false)) {
+        noFunctionalPrinters =
+            SetUtil.union(Utils.copy(noFunctionalPrinters), SetUtil.set(currentPrinter));
+      }
+    }
+    return Utils.copy(noFunctionalPrinters);
+  }
+
   public Client() {}
 
   public static Boolean cg_equals(final Client c1, final Client c2) {
@@ -127,8 +140,6 @@ public class Client {
         + Utils.toString(users)
         + ", printers := "
         + Utils.toString(printers)
-        + ", company := "
-        + Utils.toString(company)
         + "}";
   }
 }

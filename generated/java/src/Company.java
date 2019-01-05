@@ -45,8 +45,8 @@ public class Company {
 
   public void removeClient(final Client client) {
 
-    for (Iterator iterator_24 = clients.iterator(); iterator_24.hasNext(); ) {
-      Client currentClient = (Client) iterator_24.next();
+    for (Iterator iterator_25 = clients.iterator(); iterator_25.hasNext(); ) {
+      Client currentClient = (Client) iterator_25.next();
       if (Client.cg_equals(currentClient, client)) {
         clients = SetUtil.diff(Utils.copy(clients), SetUtil.set(currentClient));
       }
@@ -60,8 +60,8 @@ public class Company {
 
   public void removeEmployee(final Employee employee) {
 
-    for (Iterator iterator_25 = employees.iterator(); iterator_25.hasNext(); ) {
-      Employee currentEmployee = (Employee) iterator_25.next();
+    for (Iterator iterator_26 = employees.iterator(); iterator_26.hasNext(); ) {
+      Employee currentEmployee = (Employee) iterator_26.next();
       if (Employee.cg_equals(currentEmployee, employee)) {
         employees = SetUtil.diff(Utils.copy(employees), SetUtil.set(currentEmployee));
       }
@@ -71,8 +71,8 @@ public class Company {
   public Employee getEmployeeLessBusy() {
 
     Employee lessBusy = null;
-    for (Iterator iterator_26 = employees.iterator(); iterator_26.hasNext(); ) {
-      Employee employee = (Employee) iterator_26.next();
+    for (Iterator iterator_27 = employees.iterator(); iterator_27.hasNext(); ) {
+      Employee employee = (Employee) iterator_27.next();
       if (Utils.equals(lessBusy, null)) {
         lessBusy = employee;
       } else {
@@ -87,8 +87,8 @@ public class Company {
   public Employee getEmployee(final String name) {
 
     Employee employee = null;
-    for (Iterator iterator_27 = employees.iterator(); iterator_27.hasNext(); ) {
-      Employee current = (Employee) iterator_27.next();
+    for (Iterator iterator_28 = employees.iterator(); iterator_28.hasNext(); ) {
+      Employee current = (Employee) iterator_28.next();
       if (Utils.equals(current.name, name)) {
         employee = current;
       }

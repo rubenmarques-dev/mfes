@@ -24,6 +24,7 @@ public class Printer {
     magenta_remaining = 100L;
     functional = true;
     client = clientC;
+    client.addPrinter(this);
   }
 
   public Printer(final String locationC, final Client clientC) {
@@ -237,15 +238,23 @@ public class Printer {
     }
 
     if (orResult_5) {
-      functional = false;
       {
         Problem problem = null;
         Employee employee = null;
-        problem = new Problem("resources needed", this);
         employee = client.company.getEmployeeLessBusy();
-        employee.addProblem(problem);
+        problem = new Problem("resources needed", this, employee);
       }
     }
+  }
+
+  public void fullRepair() {
+
+    sheets_remaining = 100L;
+    black_remaining = 100L;
+    cyan_remaining = 100L;
+    yellow_remaining = 100L;
+    magenta_remaining = 100L;
+    functional = true;
   }
 
   public Printer() {}

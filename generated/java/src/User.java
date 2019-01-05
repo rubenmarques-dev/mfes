@@ -17,6 +17,7 @@ public class User {
     balance = 0L;
     client = clientC;
     documents = SetUtil.set();
+    client.addUser(this);
   }
 
   public User(final String usernameC, final String passwordC, final Client clientC) {
@@ -33,7 +34,6 @@ public class User {
 
     Document document = null;
     document = new Document(num_sheets, "PB", title, this);
-    addDocument(document);
     return document;
   }
 
@@ -41,7 +41,6 @@ public class User {
 
     Document document = null;
     document = new Document(num_sheets, "Cor", title, this);
-    addDocument(document);
     return document;
   }
 
@@ -52,8 +51,8 @@ public class User {
 
   public void removeDocument(final Document document) {
 
-    for (Iterator iterator_29 = documents.iterator(); iterator_29.hasNext(); ) {
-      Document curentDocument = (Document) iterator_29.next();
+    for (Iterator iterator_31 = documents.iterator(); iterator_31.hasNext(); ) {
+      Document curentDocument = (Document) iterator_31.next();
       if (Document.cg_equals(curentDocument, document)) {
         documents = SetUtil.diff(Utils.copy(documents), SetUtil.set(curentDocument));
       }
@@ -65,6 +64,26 @@ public class User {
     return SetUtil.inSet(document, documents);
   }
 
+  public Document getDocument(final String title, final Number num_sheets) {
+
+    Document document = null;
+    for (Iterator iterator_32 = documents.iterator(); iterator_32.hasNext(); ) {
+      Document current = (Document) iterator_32.next();
+      Boolean andResult_28 = false;
+
+      if (Utils.equals(current.title, title)) {
+        if (Utils.equals(current.num_sheets, num_sheets)) {
+          andResult_28 = true;
+        }
+      }
+
+      if (andResult_28) {
+        document = current;
+      }
+    }
+    return document;
+  }
+
   public void addToBalance(final Number amount) {
 
     balance = balance.longValue() + amount.longValue();
@@ -73,11 +92,6 @@ public class User {
   public void withdrawFromBalance(final Number amount) {
 
     balance = balance.longValue() - amount.longValue();
-  }
-
-  public User getUser() {
-
-    return this;
   }
 
   public String getUsername() {
@@ -118,8 +132,6 @@ public class User {
         + Utils.toString(balance)
         + ", documents := "
         + Utils.toString(documents)
-        + ", client := "
-        + Utils.toString(client)
         + "}";
   }
 }

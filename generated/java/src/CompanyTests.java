@@ -4,30 +4,30 @@ import org.overture.codegen.runtime.*;
 
 @SuppressWarnings("all")
 public class CompanyTests extends Tests {
+  private Company companyEmpty = new Company();
   private Company company = new Company();
   private Client client = new Client("Ruben", "povoa", company);
   private Printer printer = new Printer("FEUP", client);
-  private Problem problem1 = new Problem("descricao", printer);
   private Employee employee = new Employee("Zacarias");
+  private Problem problem1 = null;
   private Employee employee1 = null;
   private Employee employee2 = null;
 
   private void testCompany() {
 
-    assert_(Utils.empty(company.getClients()));
+    assert_(Utils.empty(companyEmpty.getClients()));
+    assert_(Utils.equals(company.getClients().size(), 1L));
     assert_(Utils.equals(company.getEmployees().size(), 2L));
   }
 
   private void addClient() {
 
-    company.addClient(client);
-    assert_(SetUtil.inSet(client, company.getClients()));
+    companyEmpty.addClient(client);
+    assert_(SetUtil.inSet(client, companyEmpty.getClients()));
   }
 
   private void removeClient() {
 
-    company.addClient(client);
-    assert_(SetUtil.inSet(client, company.getClients()));
     company.removeClient(client);
     assert_(!(SetUtil.inSet(client, company.getClients())));
   }
@@ -50,7 +50,7 @@ public class CompanyTests extends Tests {
 
     employee1 = company.getEmployeeLessBusy();
     assert_(Utils.equals(employee1.name, "Joao"));
-    employee1.addProblem(problem1);
+    problem1 = new Problem("problem1", printer, employee1);
     employee2 = company.getEmployeeLessBusy();
     assert_(Utils.equals(employee2.name, "Carlos"));
   }
@@ -69,6 +69,7 @@ public class CompanyTests extends Tests {
     new CompanyTests().addEmployee();
     new CompanyTests().removeEmployee();
     new CompanyTests().testLessBusy();
+    new CompanyTests().testGetEmployee();
   }
 
   public CompanyTests() {}
@@ -76,16 +77,18 @@ public class CompanyTests extends Tests {
   public String toString() {
 
     return "CompanyTests{"
-        + "company := "
+        + "companyEmpty := "
+        + Utils.toString(companyEmpty)
+        + ", company := "
         + Utils.toString(company)
         + ", client := "
         + Utils.toString(client)
         + ", printer := "
         + Utils.toString(printer)
-        + ", problem1 := "
-        + Utils.toString(problem1)
         + ", employee := "
         + Utils.toString(employee)
+        + ", problem1 := "
+        + Utils.toString(problem1)
         + ", employee1 := "
         + Utils.toString(employee1)
         + ", employee2 := "

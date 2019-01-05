@@ -5,7 +5,7 @@ import org.overture.codegen.runtime.*;
 @SuppressWarnings("all")
 public class Employee {
   public String name;
-  private VDMSet problems;
+  public VDMSet problems;
 
   public void cg_init_Employee_1(final String nameC) {
 
@@ -25,17 +25,35 @@ public class Employee {
 
   public void removeProblem(final Problem problem) {
 
-    for (Iterator iterator_28 = problems.iterator(); iterator_28.hasNext(); ) {
-      Problem currentProblem = (Problem) iterator_28.next();
+    for (Iterator iterator_29 = problems.iterator(); iterator_29.hasNext(); ) {
+      Problem currentProblem = (Problem) iterator_29.next();
       if (Problem.cg_equals(currentProblem, problem)) {
         problems = SetUtil.diff(Utils.copy(problems), SetUtil.set(currentProblem));
       }
     }
   }
 
+  public VDMSet getProblemsToSolve() {
+
+    VDMSet problemsToSolve = SetUtil.set();
+    for (Iterator iterator_30 = problems.iterator(); iterator_30.hasNext(); ) {
+      Problem current = (Problem) iterator_30.next();
+      if (Utils.equals(current.solved, false)) {
+        problemsToSolve = SetUtil.union(Utils.copy(problemsToSolve), SetUtil.set(current));
+      }
+    }
+    return Utils.copy(problemsToSolve);
+  }
+
   public Number getNumProblems() {
 
     return problems.size();
+  }
+
+  public void solveProblem(final Problem problem) {
+
+    problem.printer.fullRepair();
+    problem.solveIt();
   }
 
   public Employee() {}

@@ -5,6 +5,7 @@ import org.overture.codegen.runtime.*;
 @SuppressWarnings("all")
 public class ClientTests extends Tests {
   private Company company = new Company();
+  private Client clientEmpty = new Client("Empty", "povoa", company);
   private Client client = new Client("Ruben", "povoa", company);
   private Client client2 = new Client("Pedro", "porto", company);
   private User user1 = new User("Username1", "password", client);
@@ -13,23 +14,26 @@ public class ClientTests extends Tests {
   private Printer printer1 = new Printer("FEUP", client);
   private Printer printer2 = new Printer("Recepcao", client);
   private Printer printerAux = null;
+  private VDMSet printers = SetUtil.set();
 
   private void testClient() {
 
-    assert_(Utils.empty(client.getUsers()));
-    assert_(Utils.empty(client.getPrinters()));
+    assert_(Utils.equals(client.getUsers().size(), 2L));
+    assert_(Utils.equals(client.getPrinters().size(), 2L));
+    assert_(Utils.equals(clientEmpty.getUsers().size(), 0L));
+    assert_(Utils.equals(clientEmpty.getPrinters().size(), 0L));
+    assert_(Utils.empty(clientEmpty.getUsers()));
+    assert_(Utils.empty(clientEmpty.getPrinters()));
   }
 
   private void addUser() {
 
-    client.addUser(user1);
-    assert_(SetUtil.inSet(user1, client.getUsers()));
+    client2.addUser(user1);
+    assert_(SetUtil.inSet(user1, client2.getUsers()));
   }
 
   private void removeUser() {
 
-    client.addUser(user1);
-    assert_(SetUtil.inSet(user1, client.getUsers()));
     client.removeUser(user1);
     assert_(!(SetUtil.inSet(user1, client.getUsers())));
   }
@@ -46,14 +50,12 @@ public class ClientTests extends Tests {
 
   private void addPrinter() {
 
-    client.addPrinter(printer1);
-    assert_(SetUtil.inSet(printer1, client.getPrinters()));
+    client2.addPrinter(printer1);
+    assert_(SetUtil.inSet(printer1, client2.getPrinters()));
   }
 
   private void removePrinter() {
 
-    client.addPrinter(printer1);
-    assert_(SetUtil.inSet(printer1, client.getPrinters()));
     client.removePrinter(printer1);
     assert_(!(SetUtil.inSet(printer1, client.getPrinters())));
   }
@@ -61,25 +63,30 @@ public class ClientTests extends Tests {
   private void testGetFreePrinter() {
 
     printer1.login(user1);
-    client.addPrinter(printer1);
-    client.addPrinter(printer2);
     assert_(Utils.equals(client.getFreePrinter(), printer2));
   }
 
   private void testGetUser() {
 
-    client.addUser(user1);
-    assert_(SetUtil.inSet(user1, client.getUsers()));
     userAux = client.getUser(user1.username);
     assert_(Utils.equals(userAux, user1));
   }
 
   private void testGetPrinter() {
 
-    client.addPrinter(printer1);
-    assert_(SetUtil.inSet(printer1, client.getPrinters()));
     printerAux = client.getPrinter(printer1.location);
     assert_(Utils.equals(printerAux, printer1));
+  }
+
+  private void testGetNoFunctionalPrinters() {
+
+    printer1.functional = false;
+    printers = client.getNoFunctionalPrinters();
+    assert_(SetUtil.inSet(printer1, printers));
+    printer2.functional = false;
+    printers = client.getNoFunctionalPrinters();
+    assert_(SetUtil.inSet(printer1, printers));
+    assert_(SetUtil.inSet(printer2, printers));
   }
 
   public static void main() {
@@ -93,6 +100,8 @@ public class ClientTests extends Tests {
     new ClientTests().differenteClient();
     new ClientTests().testGetFreePrinter();
     new ClientTests().testGetUser();
+    new ClientTests().testGetPrinter();
+    new ClientTests().testGetNoFunctionalPrinters();
   }
 
   public ClientTests() {}
@@ -102,6 +111,8 @@ public class ClientTests extends Tests {
     return "ClientTests{"
         + "company := "
         + Utils.toString(company)
+        + ", clientEmpty := "
+        + Utils.toString(clientEmpty)
         + ", client := "
         + Utils.toString(client)
         + ", client2 := "
@@ -118,6 +129,8 @@ public class ClientTests extends Tests {
         + Utils.toString(printer2)
         + ", printerAux := "
         + Utils.toString(printerAux)
+        + ", printers := "
+        + Utils.toString(printers)
         + "}";
   }
 }

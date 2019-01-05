@@ -7,6 +7,7 @@ public class PrinterTests extends Tests {
   private Company company = new Company();
   private Client client = new Client("Ruben", "povoa", company);
   private Printer printer = new Printer("FEUP", client);
+  private Printer printer2 = new Printer("FEP", client);
   private User user1 = new User("utilizador1", "password", client);
   private User user2 = new User("utilizador2", "password", client);
   private Document document1 = null;
@@ -25,6 +26,7 @@ public class PrinterTests extends Tests {
   private void testHasColor() {
 
     assert_(Utils.equals(printer.checkValidPrintColor(100L), true));
+    assert_(Utils.equals(printer.checkValidPrintColor(101L), false));
   }
 
   private void testHaveNoUserLogged() {
@@ -126,6 +128,12 @@ public class PrinterTests extends Tests {
     assert_(Utils.equals(employee.getNumProblems(), 1L));
   }
 
+  private void testEquals() {
+
+    assert_(Utils.equals(Printer.cg_equals(printer, printer), true));
+    assert_(Utils.equals(Printer.cg_equals(printer, printer2), false));
+  }
+
   public static void main() {
 
     new PrinterTests().testFunctionalPrinter();
@@ -140,6 +148,7 @@ public class PrinterTests extends Tests {
     new PrinterTests().testPrintColorDocument();
     new PrinterTests().testPrintDocument();
     new PrinterTests().testCreateProblem();
+    new PrinterTests().testEquals();
   }
 
   public PrinterTests() {}
@@ -153,6 +162,8 @@ public class PrinterTests extends Tests {
         + Utils.toString(client)
         + ", printer := "
         + Utils.toString(printer)
+        + ", printer2 := "
+        + Utils.toString(printer2)
         + ", user1 := "
         + Utils.toString(user1)
         + ", user2 := "
