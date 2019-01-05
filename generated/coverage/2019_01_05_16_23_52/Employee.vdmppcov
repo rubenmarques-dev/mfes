@@ -1,0 +1,68 @@
+class Employee
+types
+	public String = seq of char;
+	public Problems = set of Problem;
+values
+
+instance variables
+	public name : String;
+	public problems : Problems;
+operations
+	public Employee : String ==> Employee
+		Employee(nameC) == (
+		name := nameC;
+		problems := {};
+		);
+		
+		public addProblem : Problem ==> ()
+			addProblem(problem) ==
+				problems := problems union {problem}
+			pre not exists newProblem in set problems & Problem`twoProblemsUnsolved(problem, newProblem)
+			post problem in set problems;
+		
+		public removeProblem : Problem ==> ()
+			removeProblem(problem) ==
+				for all currentProblem in set problems do
+					if Problem`equals(currentProblem, problem) 
+					then problems := problems \ {currentProblem}
+				pre exists currentProblem in set problems & Problem`equals(currentProblem, problem)
+				post not exists currentProblem  in set problems & Problem`equals(currentProblem, problem);
+	
+		public getProblem : Printer ==> Problem
+		getProblem(printer) ==
+		(
+		dcl problem : [Problem];
+		for all current in set problems do
+			if current.printer = printer and current.solved = false
+				then problem := current;
+			return problem;
+		);
+		
+		public getProblemsToSolve :() ==> set of Problem
+		getProblemsToSolve() ==
+		(
+			dcl problemsToSolve : set of [Problem] := {};
+			for all current in set problems do
+				if  current.solved = false
+				then problemsToSolve := problemsToSolve union {current};
+			return problemsToSolve;
+		);
+		
+		public getNumProblems : () ==> nat
+		getNumProblems() ==
+			return card problems;
+		
+		public solveProblem: Problem ==> ()
+		solveProblem(problem) ==
+		(
+		problem.printer.fullRepair();
+		problem.solveIt();
+		);
+		
+functions
+public equals : Employee * Employee -> bool
+equals(employee1, employee2) ==
+		employee1.name = employee2.name;
+traces
+-- TODO Define Combinatorial Test Traces here
+end Employee

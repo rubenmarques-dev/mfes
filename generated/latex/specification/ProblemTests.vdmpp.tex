@@ -1,0 +1,52 @@
+\begin{vdmpp}[breaklines=true]
+class ProblemTests is subclass of Tests
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+company : Company := new Company();
+client : Client := new Client("Ruben","povoa", company);
+printer : Printer := new Printer("FEUP", client);
+problem1 : Problem := new Problem("problem1", printer);
+problem2 : Problem := new Problem("problem2", printer);
+operations
+
+(*@
+\label{testEquals:14}
+@*)
+public testEquals: () ==> ()
+testEquals() ==
+(
+assert(Problem`equals(problem1,problem2) = false);
+assert(Problem`equals(problem1,problem1) = true);
+);
+(*@
+\label{main:20}
+@*)
+public  main: () ==> ()
+main() ==
+(
+new ProblemTests().testEquals();
+);
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end ProblemTests
+\end{vdmpp}
+\bigskip
+\begin{longtable}{|l|r|r|r|}
+\hline
+Function or operation & Line & Coverage & Calls \\
+\hline
+\hline
+\hyperref[main:20]{main} & 20&100.0\% & 2 \\
+\hline
+\hyperref[testEquals:14]{testEquals} & 14&100.0\% & 1 \\
+\hline
+\hline
+ProblemTests.vdmpp & & 100.0\% & 3 \\
+\hline
+\end{longtable}
+

@@ -4,11 +4,12 @@ import org.overture.codegen.runtime.*;
 
 @SuppressWarnings("all")
 public class UserTests extends Tests {
-  private Client client = new Client("Ruben", "povoa", quotes.Type1Quote.getInstance());
-  private User user = new User("utilizador", "password", client, quotes.Type1Quote.getInstance());
-  private Document document1 = new Document(6L, "PB", user);
-  private Document documentPB;
-  private Document documentCor;
+  private Company company = new Company();
+  private Client client = new Client("Ruben", "povoa", company);
+  private User user = new User("utilizador", "password", client);
+  private Document document1 = new Document(6L, "PB", "title", user);
+  private Document documentPB = null;
+  private Document documentCor = null;
 
   private void testGetBalance() {
 
@@ -31,21 +32,29 @@ public class UserTests extends Tests {
   private void testAddDocument() {
 
     user.addDocument(document1);
-    assert_(Utils.equals(((Document) user.getDocuments().get(0)), document1));
+    assert_(Utils.equals(SetUtil.inSet(document1, user.getDocuments()), true));
   }
 
   private void testCreateBlackDocument() {
 
-    documentPB = user.createBlackDocument(6L);
-    assert_(Utils.equals(((Document) user.getDocuments().get(0)), documentPB));
+    documentPB = user.createBlackDocument(6L, "title_pb");
+    assert_(Utils.equals(SetUtil.inSet(documentPB, user.getDocuments()), true));
   }
 
   private void testCreateColorDocument() {
 
-    documentPB = user.createBlackDocument(6L);
-    assert_(Utils.equals(((Document) user.getDocuments().get(0)), documentPB));
-    documentCor = user.createColorDocument(6L);
-    assert_(Utils.equals(((Document) user.getDocuments().get(0)), documentCor));
+    documentPB = user.createBlackDocument(6L, "title_pb");
+    assert_(Utils.equals(SetUtil.inSet(documentPB, user.getDocuments()), true));
+    documentCor = user.createColorDocument(6L, "title_cor");
+    assert_(Utils.equals(SetUtil.inSet(documentCor, user.getDocuments()), true));
+  }
+
+  private void testRemoveDocument() {
+
+    user.addDocument(document1);
+    assert_(Utils.equals(SetUtil.inSet(document1, user.getDocuments()), true));
+    user.removeDocument(document1);
+    assert_(Utils.equals(SetUtil.inSet(document1, user.getDocuments()), false));
   }
 
   public static void main() {
@@ -63,7 +72,9 @@ public class UserTests extends Tests {
   public String toString() {
 
     return "UserTests{"
-        + "client := "
+        + "company := "
+        + Utils.toString(company)
+        + ", client := "
         + Utils.toString(client)
         + ", user := "
         + Utils.toString(user)

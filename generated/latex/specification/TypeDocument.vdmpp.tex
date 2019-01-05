@@ -1,0 +1,70 @@
+\begin{vdmpp}[breaklines=true]
+class TypeDocument
+types
+Type = seq of char;
+Price = nat1;
+values
+instance variables
+ private tipos : map Type to Price :=  { "Cor" |-> 9, "PB" |-> 5};
+ 
+operations
+
+-- get all clients
+(*@
+\label{getTipos:12}
+@*)
+ pure public getTipos : () ==> map Type to Price
+  getTipos() ==
+  return tipos;
+ 
+(*@
+\label{getDomain:16}
+@*)
+ pure public getDomain: () ==> set of seq of char
+  getDomain() ==
+  return dom tipos;
+ 
+(*@
+\label{getRange:20}
+@*)
+ pure public getRange: () ==> set of nat1
+  getRange() ==
+  return rng tipos;
+ 
+(*@
+\label{getPrice:24}
+@*)
+ public getPrice: seq of char ==> nat1
+  getPrice(type) ==
+   return tipos(type);
+   
+  
+  
+ 
+ 
+functions
+-- TODO Define functiones here
+traces
+
+-- TODO Define Combinatorial Test Traces here
+end TypeDocument
+\end{vdmpp}
+\bigskip
+\begin{longtable}{|l|r|r|r|}
+\hline
+Function or operation & Line & Coverage & Calls \\
+\hline
+\hline
+\hyperref[getDomain:16]{getDomain} & 16&100.0\% & 3 \\
+\hline
+\hyperref[getPrice:24]{getPrice} & 24&100.0\% & 111 \\
+\hline
+\hyperref[getRange:20]{getRange} & 20&100.0\% & 3 \\
+\hline
+\hyperref[getTipos:12]{getTipos} & 12&100.0\% & 3 \\
+\hline
+\hline
+TypeDocument.vdmpp & & 100.0\% & 120 \\
+\hline
+\end{longtable}
+

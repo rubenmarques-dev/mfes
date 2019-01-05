@@ -1,0 +1,222 @@
+\begin{vdmpp}[breaklines=true]
+class Printer
+types
+public String = seq of char;
+values
+
+instance variables
+ public location : String;
+ public sheets_remaining : nat;
+ public black_remaining : nat;
+ public cyan_remaining : nat;
+ public yellow_remaining : nat;
+ public magenta_remaining : nat;
+ public functional : bool;
+ public userLogged : [User] := nil;
+ public client : [Client];
+operations
+(*@
+\label{Printer:17}
+@*)
+  public Printer: String * Client  ==> Printer
+  Printer(locationC, clientC) == (
+   location := locationC;
+   sheets_remaining := 100;
+   black_remaining := 100;
+   cyan_remaining := 100;
+   yellow_remaining := 100;
+   magenta_remaining := 100;
+   functional := true;
+   client := clientC;
+   client.addPrinter(self);
+  );
+  
+(*@
+\label{checkValidPrintBlack:30}
+@*)
+  public checkValidPrintBlack :nat1 ==> bool
+  checkValidPrintBlack(sheets) ==
+   return black_remaining>=sheets and sheets_remaining>=sheets
+    post RESULT=true or RESULT=false;
+    
+(*@
+\label{checkValidPrintColor:35}
+@*)
+  public checkValidPrintColor :nat1 ==> bool
+  checkValidPrintColor(sheets) == 
+   return black_remaining>=sheets and cyan_remaining>=sheets and yellow_remaining>=sheets and 
+      magenta_remaining>=sheets and sheets_remaining>=sheets
+    post RESULT=true or RESULT(*@\vdmnotcovered{=}@*)(*@\vdmnotcovered{false}@*);
+    
+(*@
+\label{checkFunctionalPrinter:41}
+@*)
+  public checkFunctionalPrinter : () ==> bool
+  checkFunctionalPrinter() ==
+   return functional=true
+    post RESULT=true or RESULT(*@\vdmnotcovered{=}@*)(*@\vdmnotcovered{false}@*);
+    
+    
+(*@
+\label{login:47}
+@*)
+   public login: User ==> ()
+  login(u) ==
+    userLogged := if userLogged = nil then u else userLogged;
+    
+(*@
+\label{getUserLogged:51}
+@*)
+   public getUserLogged: () ==> [User]
+  getUserLogged() ==
+    return userLogged
+    post RESULT = userLogged;
+
+(*@
+\label{logout:56}
+@*)
+ public logout: () ==> ()
+ logout() ==
+  userLogged := nil
+  pre userLogged <> nil
+  post userLogged = nil;
+ 
+(*@
+\label{isFree:62}
+@*)
+ public isFree: () ==> bool
+ isFree() ==
+  return userLogged = nil
+  post RESULT = true or RESULT = false;  
+  
+(*@
+\label{possiblePrintBlackDocument:67}
+@*)
+ public possiblePrintBlackDocument: Document ==> bool
+ possiblePrintBlackDocument(document) ==
+  return document.getTotalPrice() <= document.getUser().getBalance() 
+   and checkValidPrintBlack(document.getNumSheets())
+   and functional
+   and userLogged = document.getUser();
+ 
+(*@
+\label{possiblePrintColorDocument:74}
+@*)
+  public possiblePrintColorDocument: Document ==> bool
+  possiblePrintColorDocument(document) ==
+  return document.getTotalPrice() <= document.getUser().getBalance() 
+   and checkValidPrintColor(document.getNumSheets())
+   and functional
+   and userLogged = document.getUser();
+   
+  
+(*@
+\label{printDocument:82}
+@*)
+  public printDocument : Document ==> ()
+  printDocument(document) ==
+  (
+  (if document.getType() = "PB"
+   then printBlackDocument(document)
+   else printColorDocument(document));
+    stillFunctional();
+  );
+  
+(*@
+\label{printBlackDocument:91}
+@*)
+  public printBlackDocument : Document ==> ()
+  printBlackDocument(document) ==
+  (
+  sheets_remaining := sheets_remaining - document.getNumSheets();
+  black_remaining := black_remaining - document.getNumSheets();
+  document.getUser().withdrawFromBalance(document.getTotalPrice())
+  )
+  pre sheets_remaining >= document.num_sheets and black_remaining >= document.num_sheets;
+  
+(*@
+\label{printColorDocument:100}
+@*)
+  public printColorDocument : Document ==> ()
+  printColorDocument(document) ==
+  (
+  sheets_remaining := sheets_remaining - document.getNumSheets();
+  black_remaining := black_remaining - document.getNumSheets();
+  cyan_remaining := cyan_remaining - document.getNumSheets();
+  yellow_remaining := yellow_remaining - document.getNumSheets();
+  magenta_remaining := magenta_remaining - document.getNumSheets();
+  document.getUser().withdrawFromBalance(document.getTotalPrice());
+
+  )
+  pre sheets_remaining >= document.num_sheets and black_remaining >= document.num_sheets;
+  
+(*@
+\label{stillFunctional:113}
+@*)
+  public stillFunctional: () ==> ()
+  stillFunctional() == 
+  (
+  if    sheets_remaining < 10
+    or black_remaining < 10
+    or cyan_remaining < 10
+    or yellow_remaining < 10
+    or magenta_remaining < 10
+    then ( functional := false; 
+    (
+    dcl problem : Problem;
+    dcl employee : Employee;
+    problem := new Problem("resources needed", self);
+    employee := client.company.getEmployeeLessBusy();
+    employee.addProblem(problem);
+    ))
+  );
+  
+functions
+public equals : Printer * Printer -> bool
+equals(printer1, printer2) ==
+  printer1.location = printer2.location;
+traces
+-- TODO Define Combinatorial Test Traces here
+end Printer
+\end{vdmpp}
+\bigskip
+\begin{longtable}{|l|r|r|r|}
+\hline
+Function or operation & Line & Coverage & Calls \\
+\hline
+\hline
+\hyperref[Printer:17]{Printer} & 17&100.0\% & 180 \\
+\hline
+\hyperref[checkFunctionalPrinter:41]{checkFunctionalPrinter} & 41&72.7\% & 3 \\
+\hline
+\hyperref[checkValidPrintBlack:30]{checkValidPrintBlack} & 30&100.0\% & 9 \\
+\hline
+\hyperref[checkValidPrintColor:35]{checkValidPrintColor} & 35&88.8\% & 9 \\
+\hline
+\hyperref[equals:138]{equals} & 138&100.0\% & 93 \\
+\hline
+\hyperref[getUserLogged:51]{getUserLogged} & 51&100.0\% & 12 \\
+\hline
+\hyperref[isFree:62]{isFree} & 62&100.0\% & 9 \\
+\hline
+\hyperref[login:47]{login} & 47&100.0\% & 15 \\
+\hline
+\hyperref[logout:56]{logout} & 56&100.0\% & 3 \\
+\hline
+\hyperref[possiblePrintBlackDocument:67]{possiblePrintBlackDocument} & 67&100.0\% & 15 \\
+\hline
+\hyperref[possiblePrintColorDocument:74]{possiblePrintColorDocument} & 74&100.0\% & 3 \\
+\hline
+\hyperref[printBlackDocument:91]{printBlackDocument} & 91&100.0\% & 9 \\
+\hline
+\hyperref[printColorDocument:100]{printColorDocument} & 100&100.0\% & 6 \\
+\hline
+\hyperref[printDocument:82]{printDocument} & 82&100.0\% & 9 \\
+\hline
+\hyperref[stillFunctional:113]{stillFunctional} & 113&100.0\% & 6 \\
+\hline
+\hline
+Printer.vdmpp & & 97.6\% & 381 \\
+\hline
+\end{longtable}
+

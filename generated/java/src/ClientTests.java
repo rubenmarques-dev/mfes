@@ -4,12 +4,15 @@ import org.overture.codegen.runtime.*;
 
 @SuppressWarnings("all")
 public class ClientTests extends Tests {
-  private Client client = new Client("Ruben", "povoa", quotes.Type1Quote.getInstance());
-  private Client client2 = new Client("Pedro", "porto", quotes.Type1Quote.getInstance());
-  private User user1 = new User("Username1", "password", client, quotes.Type1Quote.getInstance());
-  private User user2 = new User("Username2", "password", client, quotes.Type1Quote.getInstance());
-  private Printer printer1 = new Printer("Escritório");
-  private Printer printer2 = new Printer("Recepcao");
+  private Company company = new Company();
+  private Client client = new Client("Ruben", "povoa", company);
+  private Client client2 = new Client("Pedro", "porto", company);
+  private User user1 = new User("Username1", "password", client);
+  private User user2 = new User("Username2", "password", client);
+  private User userAux = null;
+  private Printer printer1 = new Printer("FEUP", client);
+  private Printer printer2 = new Printer("Recepcao", client);
+  private Printer printerAux = null;
 
   private void testClient() {
 
@@ -63,6 +66,22 @@ public class ClientTests extends Tests {
     assert_(Utils.equals(client.getFreePrinter(), printer2));
   }
 
+  private void testGetUser() {
+
+    client.addUser(user1);
+    assert_(SetUtil.inSet(user1, client.getUsers()));
+    userAux = client.getUser(user1.username);
+    assert_(Utils.equals(userAux, user1));
+  }
+
+  private void testGetPrinter() {
+
+    client.addPrinter(printer1);
+    assert_(SetUtil.inSet(printer1, client.getPrinters()));
+    printerAux = client.getPrinter(printer1.location);
+    assert_(Utils.equals(printerAux, printer1));
+  }
+
   public static void main() {
 
     new ClientTests().testClient();
@@ -73,6 +92,7 @@ public class ClientTests extends Tests {
     new ClientTests().sameClient();
     new ClientTests().differenteClient();
     new ClientTests().testGetFreePrinter();
+    new ClientTests().testGetUser();
   }
 
   public ClientTests() {}
@@ -80,7 +100,9 @@ public class ClientTests extends Tests {
   public String toString() {
 
     return "ClientTests{"
-        + "client := "
+        + "company := "
+        + Utils.toString(company)
+        + ", client := "
         + Utils.toString(client)
         + ", client2 := "
         + Utils.toString(client2)
@@ -88,10 +110,14 @@ public class ClientTests extends Tests {
         + Utils.toString(user1)
         + ", user2 := "
         + Utils.toString(user2)
+        + ", userAux := "
+        + Utils.toString(userAux)
         + ", printer1 := "
         + Utils.toString(printer1)
         + ", printer2 := "
         + Utils.toString(printer2)
+        + ", printerAux := "
+        + Utils.toString(printerAux)
         + "}";
   }
 }

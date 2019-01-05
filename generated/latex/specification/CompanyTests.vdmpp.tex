@@ -1,0 +1,136 @@
+\begin{vdmpp}[breaklines=true]
+class CompanyTests is subclass of Tests
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+companyEmpty : Company := new Company();
+company : Company := new Company();
+client : Client := new Client("Ruben","povoa", company);
+printer : Printer := new Printer("FEUP", client);
+problem1 : Problem := new Problem("descricao", printer);
+employee : Employee := new Employee("Zacarias");
+employee1 : [Employee] := nil;
+employee2 : [Employee] := nil;
+operations
+(*@
+\label{testCompany:16}
+@*)
+private testCompany : () ==> ()
+testCompany() ==
+(
+ assert(companyEmpty.getClients() = {});
+ assert(card company.getClients() = 1);
+ assert(card company.getEmployees() = 2);
+);
+(*@
+\label{addClient:23}
+@*)
+private addClient : () ==> ()
+addClient() == 
+(
+ companyEmpty.addClient(client);
+ assert(client  in set companyEmpty.getClients());
+);
+(*@
+\label{removeClient:29}
+@*)
+private removeClient : () ==> ()
+removeClient() == 
+(
+ company.removeClient(client);
+ assert(client not in set company.getClients());
+);
+
+(*@
+\label{addEmployee:36}
+@*)
+private addEmployee : () ==> ()
+addEmployee() == 
+(
+ company.addEmployee(employee);
+ assert(employee  in set company.getEmployees());
+);
+(*@
+\label{removeEmployee:42}
+@*)
+private removeEmployee : () ==> ()
+removeEmployee () == 
+(
+ company.addEmployee(employee);
+ assert(employee in set company.getEmployees());
+ company.removeEmployee(employee);
+ assert(employee not in set company.getEmployees());
+);
+(*@
+\label{testLessBusy:50}
+@*)
+private testLessBusy : () ==> ()
+testLessBusy() == 
+(
+employee1 := company.getEmployeeLessBusy();
+assert(employee1.name = "Joao");
+employee1.addProblem(problem1);
+employee2 := company.getEmployeeLessBusy();
+assert(employee2.name = "Carlos");
+);
+
+(*@
+\label{testGetEmployee:60}
+@*)
+public testGetEmployee : () ==> ()
+testGetEmployee() ==
+(
+employee1 := company.getEmployee("Joao");
+assert(employee1.name = "Joao");
+);
+
+(*@
+\label{main:67}
+@*)
+public static main: () ==> ()
+ main() ==
+ (
+  new CompanyTests().testCompany();
+  new CompanyTests().addClient();
+  new CompanyTests().removeClient();
+  new CompanyTests().addEmployee();
+  new CompanyTests().removeEmployee();
+  new CompanyTests().testLessBusy();
+  new CompanyTests().testGetEmployee();
+  
+ );
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end CompanyTests
+\end{vdmpp}
+\bigskip
+\begin{longtable}{|l|r|r|r|}
+\hline
+Function or operation & Line & Coverage & Calls \\
+\hline
+\hline
+\hyperref[addClient:23]{addClient} & 23&100.0\% & 3 \\
+\hline
+\hyperref[addEmployee:36]{addEmployee} & 36&100.0\% & 3 \\
+\hline
+\hyperref[main:67]{main} & 67&100.0\% & 6 \\
+\hline
+\hyperref[removeClient:29]{removeClient} & 29&100.0\% & 3 \\
+\hline
+\hyperref[removeEmployee:42]{removeEmployee} & 42&100.0\% & 3 \\
+\hline
+\hyperref[testCompany:16]{testCompany} & 16&100.0\% & 3 \\
+\hline
+\hyperref[testGetEmployee:60]{testGetEmployee} & 60&100.0\% & 3 \\
+\hline
+\hyperref[testLessBusy:50]{testLessBusy} & 50&100.0\% & 9 \\
+\hline
+\hline
+CompanyTests.vdmpp & & 100.0\% & 33 \\
+\hline
+\end{longtable}
+

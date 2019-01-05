@@ -1,0 +1,164 @@
+\begin{vdmpp}[breaklines=true]
+class Company
+types
+public String = seq of char;
+values
+ 
+instance variables
+ clients : set of Client;
+ employees : set of Employee := {};
+operations
+
+(*@
+\label{Company:11}
+@*)
+ public Company: () ==> Company
+  Company() == (
+   clients :=  {};
+   initiateEmployess();
+  );
+  
+(*@
+\label{initiateEmployess:17}
+@*)
+  public initiateEmployess: () ==> ()
+  initiateEmployess() ==
+  (
+  dcl employee1 : Employee;
+  dcl employee2 : Employee;
+  employee1 := new Employee("Joao");
+  employee2 := new Employee("Carlos");
+  addEmployee(employee1);
+  addEmployee(employee2);
+  );
+ 
+ 
+   -- get all clients
+(*@
+\label{getClients:30}
+@*)
+ pure public getClients : () ==> set of Client
+  getClients() ==
+  return clients;
+  
+ --get all employees
+(*@
+\label{getEmployees:35}
+@*)
+ pure public getEmployees: () ==> set of Employee
+  getEmployees() ==
+  return employees;
+  
+  
+ --client functions 
+ 
+
+(*@
+\label{addClient:43}
+@*)
+ public addClient :Client ==> ()
+  addClient(client) ==
+    clients := clients union {client}
+    pre not exists newClient in set clients & Client`equals(client, newClient)
+    post client in set clients;
+(*@
+\label{removeClient:48}
+@*)
+ public removeClient :Client ==> ()
+  removeClient(client) ==
+    (
+   for all currentClient in set clients do
+    if Client`equals(currentClient, client) 
+    then clients := clients \ {currentClient};
+   )
+    pre exists currentClient in set clients & Client`equals(currentClient, client)
+    post not exists currentClient  in set clients & Client`equals((*@\vdmnotcovered{currentClient}@*), (*@\vdmnotcovered{client}@*));
+ 
+ 
+ --employee functions
+(*@
+\label{addEmployee:60}
+@*)
+  public addEmployee :Employee ==> ()
+  addEmployee(employee) ==
+   employees := employees union {employee}
+    pre not exists newEmployee in set employees & Employee`equals(employee, newEmployee)
+    post employee in set employees;
+    
+  
+(*@
+\label{removeEmployee:67}
+@*)
+  public removeEmployee :Employee ==> ()
+  removeEmployee(employee) ==
+    (
+   for all currentEmployee in set employees do
+    if Employee`equals(currentEmployee, employee) 
+    then employees := employees \ {currentEmployee};
+   )
+    pre exists currentEmployee in set employees & Employee`equals(currentEmployee, employee)
+    post not exists currentEmployee in set employees & Employee`equals(currentEmployee, employee);
+    
+(*@
+\label{getEmployeeLessBusy:77}
+@*)
+ public getEmployeeLessBusy : () ==> Employee
+ getEmployeeLessBusy() == (
+ dcl lessBusy : [Employee] := nil;
+ for all employee in set employees do
+  if lessBusy = nil
+  then lessBusy := employee
+  else (if lessBusy.getNumProblems() > employee.getNumProblems() then lessBusy := employee);
+ return  lessBusy;
+ ); 
+ 
+(*@
+\label{getEmployee:87}
+@*)
+ public getEmployee : String ==> Employee
+ getEmployee(name) ==
+ (
+ dcl employee : [Employee] := nil;
+ for all current in set employees do
+  if current.name = name
+  then employee := current;
+ return employee;
+ );
+
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Company
+\end{vdmpp}
+\bigskip
+\begin{longtable}{|l|r|r|r|}
+\hline
+Function or operation & Line & Coverage & Calls \\
+\hline
+\hline
+\hyperref[Company:11]{Company} & 11&100.0\% & 183 \\
+\hline
+\hyperref[addClient:43]{addClient} & 43&100.0\% & 228 \\
+\hline
+\hyperref[addEmployee:60]{addEmployee} & 60&100.0\% & 372 \\
+\hline
+\hyperref[getClients:30]{getClients} & 30&100.0\% & 12 \\
+\hline
+\hyperref[getEmployee:87]{getEmployee} & 87&100.0\% & 12 \\
+\hline
+\hyperref[getEmployeeLessBusy:77]{getEmployeeLessBusy} & 77&100.0\% & 9 \\
+\hline
+\hyperref[getEmployees:35]{getEmployees} & 35&100.0\% & 12 \\
+\hline
+\hyperref[initiateEmployess:17]{initiateEmployess} & 17&100.0\% & 183 \\
+\hline
+\hyperref[removeClient:48]{removeClient} & 48&86.9\% & 3 \\
+\hline
+\hyperref[removeEmployee:67]{removeEmployee} & 67&100.0\% & 18 \\
+\hline
+\hline
+Company.vdmpp & & 97.6\% & 1032 \\
+\hline
+\end{longtable}
+

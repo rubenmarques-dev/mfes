@@ -1,0 +1,85 @@
+\begin{vdmpp}[breaklines=true]
+class Employee
+types
+ public String = seq of char;
+ public Problems = set of Problem;
+values
+
+instance variables
+ public name : String;
+ private problems : Problems;
+operations
+(*@
+\label{Employee:11}
+@*)
+ public Employee : String ==> Employee
+  Employee(nameC) == (
+  name := nameC;
+  problems := {};
+  );
+  
+  
+(*@
+\label{addProblem:18}
+@*)
+  public addProblem : Problem ==> ()
+   addProblem(problem) ==
+    problems := problems union {problem}
+   pre not exists newProblem in set problems & Problem`equals(problem, newProblem)
+   post problem in set problems;
+ 
+   
+(*@
+\label{removeProblem:25}
+@*)
+  public removeProblem : Problem ==> ()
+   removeProblem(problem) ==
+    for all currentProblem in set problems do
+     if Problem`equals(currentProblem, problem) 
+     then problems := problems \ {currentProblem}
+    pre exists currentProblem in set problems & Problem`equals(currentProblem, problem)
+    post not exists currentProblem  in set problems & Problem`equals(currentProblem, problem);
+ 
+  
+  
+(*@
+\label{getNumProblems:35}
+@*)
+  public getNumProblems : () ==> nat
+  getNumProblems() ==
+   return card problems;
+   
+  
+   
+functions
+(*@
+\label{equals:42}
+@*)
+public equals : Employee * Employee -> bool
+equals(employee1, employee2) ==
+  employee1.name = employee2.name;
+traces
+-- TODO Define Combinatorial Test Traces here
+end Employee
+\end{vdmpp}
+\bigskip
+\begin{longtable}{|l|r|r|r|}
+\hline
+Function or operation & Line & Coverage & Calls \\
+\hline
+\hline
+\hyperref[Employee:11]{Employee} & 11&100.0\% & 394 \\
+\hline
+\hyperref[addProblem:18]{addProblem} & 18&100.0\% & 10 \\
+\hline
+\hyperref[equals:42]{equals} & 42&100.0\% & 219 \\
+\hline
+\hyperref[getNumProblems:35]{getNumProblems} & 35&100.0\% & 29 \\
+\hline
+\hyperref[removeProblem:25]{removeProblem} & 25&100.0\% & 2 \\
+\hline
+\hline
+Employee.vdmpp & & 100.0\% & 654 \\
+\hline
+\end{longtable}
+

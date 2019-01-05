@@ -1,0 +1,94 @@
+\begin{vdmpp}[breaklines=true]
+class Document
+types
+public String = seq of char;
+values
+-- TODO Define values here
+instance variables
+ public num_sheets : nat1;
+ public type : String;
+ public title : String;
+ public price : nat1 := 1;
+ private typeDocument : TypeDocument := new TypeDocument();
+ public user : User;
+operations
+(*@
+\label{Document:14}
+@*)
+ public Document: nat1 * String * String * User ==> Document
+  Document(numSheetsC, typeC, titleC, userC) == (
+   num_sheets := numSheetsC;
+   price := typeDocument.getPrice(typeC);
+   title := titleC;
+   type := typeC;
+   user := userC;
+   user.addDocument(self);
+  );
+ 
+(*@
+\label{getType:24}
+@*)
+ public getType : () ==> String
+ getType() ==
+  return type
+  post RESULT = type;
+ 
+(*@
+\label{getTotalPrice:29}
+@*)
+ public getTotalPrice : () ==> nat1
+ getTotalPrice() ==
+  return num_sheets * price
+  post RESULT = num_sheets * price;
+ 
+(*@
+\label{getNumSheets:34}
+@*)
+  public getNumSheets : () ==> nat1
+ getNumSheets() ==
+  return num_sheets
+  post RESULT = num_sheets;
+ 
+(*@
+\label{getUser:39}
+@*)
+ public getUser : () ==> User
+ getUser() ==
+  return user
+  post RESULT = user;
+  
+  
+functions
+(*@
+\label{equals:46}
+@*)
+public equals : Document * Document -> bool
+equals(d1, d2) ==
+  d1.type = d2.type and d1.title = d2.title and d1.num_sheets = d2.num_sheets;
+traces
+-- TODO Define Combinatorial Test Traces here
+end Document
+\end{vdmpp}
+\bigskip
+\begin{longtable}{|l|r|r|r|}
+\hline
+Function or operation & Line & Coverage & Calls \\
+\hline
+\hline
+\hyperref[Document:14]{Document} & 14&100.0\% & 102 \\
+\hline
+\hyperref[equals:46]{equals} & 46&100.0\% & 15 \\
+\hline
+\hyperref[getNumSheets:34]{getNumSheets} & 34&100.0\% & 66 \\
+\hline
+\hyperref[getTotalPrice:29]{getTotalPrice} & 29&100.0\% & 48 \\
+\hline
+\hyperref[getType:24]{getType} & 24&100.0\% & 15 \\
+\hline
+\hyperref[getUser:39]{getUser} & 39&100.0\% & 54 \\
+\hline
+\hline
+Document.vdmpp & & 100.0\% & 300 \\
+\hline
+\end{longtable}
+

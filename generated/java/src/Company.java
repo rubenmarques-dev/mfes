@@ -5,17 +5,27 @@ import org.overture.codegen.runtime.*;
 @SuppressWarnings("all")
 public class Company {
   private VDMSet clients;
-  private VDMSet employees;
+  private VDMSet employees = SetUtil.set();
 
   public void cg_init_Company_1() {
 
     clients = SetUtil.set();
-    employees = SetUtil.set();
+    initiateEmployess();
   }
 
   public Company() {
 
     cg_init_Company_1();
+  }
+
+  public void initiateEmployess() {
+
+    Employee employee1 = null;
+    Employee employee2 = null;
+    employee1 = new Employee("Joao");
+    employee2 = new Employee("Carlos");
+    addEmployee(employee1);
+    addEmployee(employee2);
   }
 
   public VDMSet getClients() {
@@ -35,8 +45,8 @@ public class Company {
 
   public void removeClient(final Client client) {
 
-    for (Iterator iterator_16 = clients.iterator(); iterator_16.hasNext(); ) {
-      Client currentClient = (Client) iterator_16.next();
+    for (Iterator iterator_24 = clients.iterator(); iterator_24.hasNext(); ) {
+      Client currentClient = (Client) iterator_24.next();
       if (Client.cg_equals(currentClient, client)) {
         clients = SetUtil.diff(Utils.copy(clients), SetUtil.set(currentClient));
       }
@@ -50,12 +60,40 @@ public class Company {
 
   public void removeEmployee(final Employee employee) {
 
-    for (Iterator iterator_17 = employees.iterator(); iterator_17.hasNext(); ) {
-      Employee currentEmployee = (Employee) iterator_17.next();
+    for (Iterator iterator_25 = employees.iterator(); iterator_25.hasNext(); ) {
+      Employee currentEmployee = (Employee) iterator_25.next();
       if (Employee.cg_equals(currentEmployee, employee)) {
         employees = SetUtil.diff(Utils.copy(employees), SetUtil.set(currentEmployee));
       }
     }
+  }
+
+  public Employee getEmployeeLessBusy() {
+
+    Employee lessBusy = null;
+    for (Iterator iterator_26 = employees.iterator(); iterator_26.hasNext(); ) {
+      Employee employee = (Employee) iterator_26.next();
+      if (Utils.equals(lessBusy, null)) {
+        lessBusy = employee;
+      } else {
+        if (lessBusy.getNumProblems().longValue() > employee.getNumProblems().longValue()) {
+          lessBusy = employee;
+        }
+      }
+    }
+    return lessBusy;
+  }
+
+  public Employee getEmployee(final String name) {
+
+    Employee employee = null;
+    for (Iterator iterator_27 = employees.iterator(); iterator_27.hasNext(); ) {
+      Employee current = (Employee) iterator_27.next();
+      if (Utils.equals(current.name, name)) {
+        employee = current;
+      }
+    }
+    return employee;
   }
 
   public String toString() {

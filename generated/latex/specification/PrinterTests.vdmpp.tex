@@ -1,0 +1,252 @@
+\begin{vdmpp}[breaklines=true]
+class PrinterTests is subclass of Tests
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+company : Company := new Company();
+client : Client := new Client("Ruben","povoa", company);
+printer : Printer := new Printer("FEUP", client);
+printer2 : Printer := new Printer("FEP", client);
+user1 : User := new User("utilizador1", "password", client);
+user2 : User := new User("utilizador2", "password", client);
+document1 : [Document] := nil;
+employee : [Employee] := nil;
+operations
+(*@
+\label{testFunctionalPrinter:16}
+@*)
+
+private testFunctionalPrinter : () ==> ()
+testFunctionalPrinter() ==
+(
+ assert(printer.checkFunctionalPrinter() = true);
+);
+(*@
+\label{testHasBlack:22}
+@*)
+
+private testHasBlack : () ==> ()
+testHasBlack() == 
+(
+ assert(printer.checkValidPrintBlack(200) = false);
+);
+(*@
+\label{testHasColor:28}
+@*)
+
+private testHasColor : () ==> ()
+testHasColor() == 
+(
+ assert(printer.checkValidPrintColor(100) = true);
+);
+(*@
+\label{testHaveNoUserLogged:34}
+@*)
+
+private testHaveNoUserLogged : () ==> ()
+testHaveNoUserLogged() == 
+(
+assert(printer.isFree() = true);
+);
+(*@
+\label{testLogin:40}
+@*)
+
+private testLogin : () ==> ()
+testLogin() == 
+(
+printer.login(user1);
+assert(printer.getUserLogged() = user1);
+printer.login(user2);
+assert(printer.getUserLogged() = user1);
+);
+(*@
+\label{testLogout:49}
+@*)
+
+private testLogout : () ==> ()
+testLogout() == 
+(
+printer.login(user1);
+assert(printer.getUserLogged() = user1);
+printer.logout();
+assert(printer.getUserLogged() = nil);
+);
+(*@
+\label{testPossiblePrintBlackDocument:58}
+@*)
+
+private testPossiblePrintBlackDocument: () ==> ()
+testPossiblePrintBlackDocument() ==
+(
+document1 := user1.createBlackDocument(6, "title_pb");
+assert(printer.possiblePrintBlackDocument(document1) = false);
+printer.login(user1);
+assert(printer.possiblePrintBlackDocument(document1) = false);
+user1.addToBalance(25);
+assert(printer.possiblePrintBlackDocument(document1) = false);
+user1.addToBalance(5);
+assert(printer.possiblePrintBlackDocument(document1) = true);
+printer.functional := false;
+assert(printer.possiblePrintBlackDocument(document1) = false);
+);
+(*@
+\label{testPossiblePrintColorDocument:73}
+@*)
+
+private testPossiblePrintColorDocument: () ==> ()
+testPossiblePrintColorDocument() ==
+(
+document1 := user1.createColorDocument(50, "title_cor");
+assert(printer.possiblePrintColorDocument(document1) = false);
+printer.login(user1);
+assert(printer.possiblePrintColorDocument(document1) = false);
+user1.addToBalance(300);
+assert(printer.possiblePrintColorDocument(document1) = false);
+user1.addToBalance(160);
+assert(printer.possiblePrintColorDocument(document1) = true);
+printer.functional := false;
+assert(printer.possiblePrintColorDocument(document1) = false);
+);
+(*@
+\label{testPrintBlackDocument:88}
+@*)
+
+private testPrintBlackDocument: () ==> ()
+testPrintBlackDocument() ==
+(
+document1 := user1.createBlackDocument(6, "title_pb");
+user1.addToBalance(30);
+printer.printBlackDocument(document1);
+assert(user1.getBalance() = 0);
+assert(printer.black_remaining = 94);
+assert(printer.sheets_remaining = 94);
+);
+(*@
+\label{testPrintColorDocument:99}
+@*)
+
+private testPrintColorDocument: () ==> ()
+testPrintColorDocument() ==
+(
+document1 := user1.createColorDocument(10, "title_pb");
+user1.addToBalance(90);
+printer.printColorDocument(document1);
+assert(user1.getBalance() = 0);
+assert(printer.black_remaining = 90);
+assert(printer.cyan_remaining = 90);
+assert(printer.yellow_remaining = 90);
+assert(printer.magenta_remaining = 90);
+assert(printer.sheets_remaining = 90);
+);
+(*@
+\label{testPrintDocument:113}
+@*)
+
+private testPrintDocument: () ==> ()
+testPrintDocument() == (
+user1.addToBalance(102);
+document1 := user1.createBlackDocument(6, "title_pb");
+printer.printDocument(document1);
+assert(printer.black_remaining = 94);
+assert(printer.sheets_remaining = 94);
+assert(user1.getBalance() = 72);
+document1 := user1.createColorDocument(8, "title_cor");
+printer.printDocument(document1);
+assert(printer.black_remaining = 86);
+assert(printer.sheets_remaining = 86);
+assert(printer.cyan_remaining = 92);
+assert(printer.yellow_remaining = 92);
+assert(printer.magenta_remaining = 92);
+assert(user1.getBalance() = 0);
+);
+(*@
+\label{testCreateProblem:131}
+@*)
+
+private testCreateProblem: () ==> ()
+testCreateProblem() == (
+user1.addToBalance(455);
+document1 := user1.createBlackDocument(91, "title_pb");
+printer.printDocument(document1);
+employee := printer.client.company.getEmployee("Joao");
+assert(employee.getNumProblems() = 1);
+);
+(*@
+\label{testEquals:140}
+@*)
+
+private testEquals: () ==> ()
+(*@
+\label{main:142}
+@*)
+testEquals() ==
+(
+assert(Printer`equals(printer,printer) = true);
+assert(Printer`equals(printer,printer2) = false);
+);
+
+public static main: () ==> ()
+ main() ==
+ (
+  new PrinterTests().testFunctionalPrinter();
+  new PrinterTests().testHasBlack();
+  new PrinterTests().testHasColor();
+  new PrinterTests().testHaveNoUserLogged();
+  new PrinterTests().testLogin();
+  new PrinterTests().testLogout();
+  new PrinterTests().testPossiblePrintBlackDocument();
+  new PrinterTests().testPossiblePrintColorDocument();
+  new PrinterTests().testPrintBlackDocument();
+  new PrinterTests().testPrintColorDocument();
+  new PrinterTests().testPrintDocument();
+  new PrinterTests().testCreateProblem();
+  new PrinterTests().testEquals();
+ );
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end PrinterTests
+\end{vdmpp}
+\bigskip
+\begin{longtable}{|l|r|r|r|}
+\hline
+Function or operation & Line & Coverage & Calls \\
+\hline
+\hline
+\hyperref[main:142]{main} & 142&100.0\% & 6 \\
+\hline
+\hyperref[testCreateProblem:131]{testCreateProblem} & 131&100.0\% & 3 \\
+\hline
+\hyperref[testEquals:140]{testEquals} & 140&100.0\% & 3 \\
+\hline
+\hyperref[testFunctionalPrinter:16]{testFunctionalPrinter} & 16&100.0\% & 3 \\
+\hline
+\hyperref[testHasBlack:22]{testHasBlack} & 22&100.0\% & 3 \\
+\hline
+\hyperref[testHasColor:28]{testHasColor} & 28&100.0\% & 9 \\
+\hline
+\hyperref[testHaveNoUserLogged:34]{testHaveNoUserLogged} & 34&100.0\% & 3 \\
+\hline
+\hyperref[testLogin:40]{testLogin} & 40&100.0\% & 3 \\
+\hline
+\hyperref[testLogout:49]{testLogout} & 49&100.0\% & 3 \\
+\hline
+\hyperref[testPossiblePrintBlackDocument:58]{testPossiblePrintBlackDocument} & 58&100.0\% & 3 \\
+\hline
+\hyperref[testPossiblePrintColorDocument:73]{testPossiblePrintColorDocument} & 73&100.0\% & 3 \\
+\hline
+\hyperref[testPrintBlackDocument:88]{testPrintBlackDocument} & 88&100.0\% & 3 \\
+\hline
+\hyperref[testPrintColorDocument:99]{testPrintColorDocument} & 99&100.0\% & 3 \\
+\hline
+\hyperref[testPrintDocument:113]{testPrintDocument} & 113&100.0\% & 3 \\
+\hline
+\hline
+PrinterTests.vdmpp & & 100.0\% & 51 \\
+\hline
+\end{longtable}
+

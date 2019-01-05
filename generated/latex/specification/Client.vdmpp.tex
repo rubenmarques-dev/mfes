@@ -1,0 +1,175 @@
+\begin{vdmpp}[breaklines=true]
+class Client
+types
+ public String = seq of char;
+ public Users = set of User;
+ public Printers = set of Printer;
+values
+-- TODO Define values here
+instance variables
+ private name: String;
+ private location: String;
+ private users : Users;
+ private printers : Printers;
+ public company : [Company] := nil;
+operations
+ --Client constructor
+(*@
+\label{Client:16}
+@*)
+ public Client: String * String * Company ==> Client
+  Client(nameC,locationC, companyC) == (
+      name := nameC;
+      location := locationC;
+      users := {};
+      printers := {};
+      company := companyC;
+      company.addClient(self);
+  );
+  
+  --users operations
+   -- get all users
+(*@
+\label{getUsers:28}
+@*)
+ pure public getUsers : () ==> set of User
+  getUsers() ==
+   return users;
+  
+  --add user 
+(*@
+\label{addUser:33}
+@*)
+ public addUser :User ==> ()
+  addUser(user) ==
+    users := users union {user}
+   pre not exists newUser in set users & User`equals(user, newUser)
+   post user in set users;
+  --removeUser
+(*@
+\label{removeUser:39}
+@*)
+ public removeUser :User ==> ()
+  removeUser(user) ==
+   for all currentUser in set users do
+    if User`equals(currentUser, user) 
+    then users := users \ {currentUser}
+   pre exists currentUser in set users & User`equals(currentUser, user)
+   post not exists currentUser  in set users & User`equals(currentUser, user);
+ 
+
+(*@
+\label{getUser:48}
+@*)
+  public getUser: String ==> User
+   getUser(username) ==
+   (
+    dcl user : [User] := nil;
+    for all current in set users do
+     if current.username = username
+     then user := current;
+    return user;
+   );
+  
+(*@
+\label{getPrinter:58}
+@*)
+  public getPrinter: String ==> Printer
+   getPrinter(location) ==
+   (
+    dcl printer : [Printer] := nil;
+    for all current in set printers do
+     if current.location = location
+     then printer := current;
+    return printer;
+   );
+
+  
+  --printer operations
+  -- get all printers
+(*@
+\label{getPrinters:71}
+@*)
+ pure public getPrinters : () ==> set of Printer
+  getPrinters() ==
+   return printers;
+  
+(*@
+\label{addPrinter:75}
+@*)
+ public addPrinter :Printer ==> ()
+  addPrinter(printer) ==
+   printers := printers union {printer}
+  pre not exists newPrinter in set printers & Printer`equals(printer, newPrinter)
+  post printer in set printers;
+ 
+(*@
+\label{removePrinter:81}
+@*)
+ public removePrinter :Printer ==> ()
+  removePrinter(printer) ==
+   for all currentPrinter in set printers do
+    if Printer`equals(currentPrinter, printer) 
+    then printers := printers \ {currentPrinter}
+  pre exists currentPrinter in set printers & Printer`equals(currentPrinter, printer)
+  post not exists currentPrinter  in set printers & Printer`equals(currentPrinter, printer);
+  
+  
+(*@
+\label{getFreePrinter:90}
+@*)
+ public getFreePrinter : () ==> Printer
+ getFreePrinter() == (
+ dcl freePrinters : seq of Printer := [];
+ for all currentPrinter in set printers do
+  if currentPrinter.isFree() = true
+  then freePrinters := freePrinters^[currentPrinter];
+  
+  return hd freePrinters;
+  );
+  
+functions
+(*@
+\label{equals:101}
+@*)
+public equals : Client * Client -> bool
+equals(c1, c2) ==
+  c1.name = c2.name and c1.location = c2.location;
+
+traces
+-- TODO Define Combinatorial Test Traces here
+end Client
+\end{vdmpp}
+\bigskip
+\begin{longtable}{|l|r|r|r|}
+\hline
+Function or operation & Line & Coverage & Calls \\
+\hline
+\hline
+\hyperref[Client:16]{Client} & 16&100.0\% & 225 \\
+\hline
+\hyperref[addPrinter:75]{addPrinter} & 75&100.0\% & 150 \\
+\hline
+\hyperref[addUser:33]{addUser} & 33&100.0\% & 243 \\
+\hline
+\hyperref[equals:101]{equals} & 101&100.0\% & 18 \\
+\hline
+\hyperref[getFreePrinter:90]{getFreePrinter} & 90&100.0\% & 3 \\
+\hline
+\hyperref[getPrinter:58]{getPrinter} & 58&100.0\% & 3 \\
+\hline
+\hyperref[getPrinters:71]{getPrinters} & 71&100.0\% & 15 \\
+\hline
+\hyperref[getUser:48]{getUser} & 48&100.0\% & 3 \\
+\hline
+\hyperref[getUsers:28]{getUsers} & 28&100.0\% & 15 \\
+\hline
+\hyperref[removePrinter:81]{removePrinter} & 81&100.0\% & 3 \\
+\hline
+\hyperref[removeUser:39]{removeUser} & 39&100.0\% & 3 \\
+\hline
+\hline
+Client.vdmpp & & 100.0\% & 681 \\
+\hline
+\end{longtable}
+

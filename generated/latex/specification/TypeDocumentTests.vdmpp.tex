@@ -1,0 +1,50 @@
+\begin{vdmpp}[breaklines=true]
+class TypeDocumentTests is subclass of Tests
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+typeDocument : TypeDocument := new TypeDocument();
+operations
+(*@
+\label{testTypeDocument:9}
+@*)
+private testTypeDocument : () ==> ()
+testTypeDocument() ==
+(
+ assert(typeDocument.getTipos() = { "Cor" |-> 9, "PB" |-> 5});
+ assert(typeDocument.getDomain() = { "Cor", "PB" });
+ assert(typeDocument.getRange() = { 9,5 });
+ assert(typeDocument.getPrice("Cor" ) = 9 );
+ assert(typeDocument.getPrice("PB" ) = 5 );
+);
+(*@
+\label{main:18}
+@*)
+public static main: () ==> ()
+ main() ==
+ (
+  new TypeDocumentTests().testTypeDocument();
+ );
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end TypeDocumentTests
+\end{vdmpp}
+\bigskip
+\begin{longtable}{|l|r|r|r|}
+\hline
+Function or operation & Line & Coverage & Calls \\
+\hline
+\hline
+\hyperref[main:18]{main} & 18&100.0\% & 3 \\
+\hline
+\hyperref[testTypeDocument:9]{testTypeDocument} & 9&100.0\% & 3 \\
+\hline
+\hline
+TypeDocumentTests.vdmpp & & 100.0\% & 6 \\
+\hline
+\end{longtable}
+

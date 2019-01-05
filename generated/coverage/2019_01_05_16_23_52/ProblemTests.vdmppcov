@@ -1,0 +1,37 @@
+class ProblemTests is subclass of Tests
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+company : Company := new Company();
+client : Client := new Client("Ruben","povoa", company);
+printer : Printer := new Printer("FEUP", client);
+printer2 : Printer := new Printer("FEP", client);
+employee : Employee := new Employee("Joao");
+problem1 : Problem := new Problem("problem1", printer, employee);
+problem2 : Problem := new Problem("problem2", printer2, employee);
+operations
+
+public twoProblemsUnsolved: () ==> ()
+twoProblemsUnsolved() ==
+(
+assert(Problem`twoProblemsUnsolved(problem1,problem2) = false);
+);
+
+public equals: () ==> ()
+equals() ==
+(
+assert(Problem`equals(problem1,problem2) = false);
+);
+
+public static main: () ==> ()
+main() ==
+(
+new ProblemTests().equals();
+);
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end ProblemTests

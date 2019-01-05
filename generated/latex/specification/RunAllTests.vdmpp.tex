@@ -1,0 +1,42 @@
+\begin{vdmpp}[breaklines=true]
+class RunAllTests
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+
+operations
+(*@
+\label{main:9}
+@*)
+public static main: () ==> ()
+ main() ==
+ (
+  new ClientTests().main();
+  new CompanyTests().main();
+  new DocumentTests().main();
+  new EmployeeTests().main();
+  new PrinterTests().main();
+  new ProblemTests().main();
+  new TypeDocumentTests().main();
+  new UserTests().main();
+ );
+functions
+traces
+-- TODO Define Combinatorial Test Traces here
+end RunAllTests
+\end{vdmpp}
+\bigskip
+\begin{longtable}{|l|r|r|r|}
+\hline
+Function or operation & Line & Coverage & Calls \\
+\hline
+\hline
+\hyperref[main:9]{main} & 9&100.0\% & 2 \\
+\hline
+\hline
+RunAllTests.vdmpp & & 100.0\% & 2 \\
+\hline
+\end{longtable}
+

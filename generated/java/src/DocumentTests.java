@@ -4,9 +4,10 @@ import org.overture.codegen.runtime.*;
 
 @SuppressWarnings("all")
 public class DocumentTests extends Tests {
-  private Client client = new Client("Ruben", "povoa", quotes.Type1Quote.getInstance());
-  private User user = new User("utilizador", "password", client, quotes.Type1Quote.getInstance());
-  private Document document1 = new Document(6L, "PB", user);
+  private Company company = new Company();
+  private Client client = new Client("Ruben", "povoa", company);
+  private User user = new User("utilizador", "password", client);
+  private Document document1 = new Document(6L, "PB", "title", user);
   private TypeDocument typeDocument = new TypeDocument();
 
   public void testTotalPrice() {
@@ -40,7 +41,9 @@ public class DocumentTests extends Tests {
   public String toString() {
 
     return "DocumentTests{"
-        + "client := "
+        + "company := "
+        + Utils.toString(company)
+        + ", client := "
         + Utils.toString(client)
         + ", user := "
         + Utils.toString(user)

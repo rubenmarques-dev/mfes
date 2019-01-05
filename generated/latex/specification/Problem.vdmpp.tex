@@ -1,0 +1,49 @@
+\begin{vdmpp}[breaklines=true]
+class Problem
+types
+ public String = seq of char;
+ 
+values
+-- TODO Define values here
+instance variables
+ public description : String;
+ public solved : bool;
+ public printer : Printer;
+operations
+(*@
+\label{Problem:12}
+@*)
+ public Problem: String * Printer ==> Problem
+ Problem(descriptionC,printerC) == (
+   description := descriptionC;
+   printer := printerC;
+   solved := false;
+  );
+  
+  
+functions
+(*@
+\label{equals:21}
+@*)
+public equals : Problem * Problem -> bool
+equals(p1, p2) ==
+  p1.description = p2.description and p1.printer = p2.printer and p1.solved = p2.solved;
+traces
+-- TODO Define Combinatorial Test Traces here
+end Problem
+\end{vdmpp}
+\bigskip
+\begin{longtable}{|l|r|r|r|}
+\hline
+Function or operation & Line & Coverage & Calls \\
+\hline
+\hline
+\hyperref[Problem:12]{Problem} & 12&100.0\% & 39 \\
+\hline
+\hyperref[equals:21]{equals} & 21&100.0\% & 28 \\
+\hline
+\hline
+Problem.vdmpp & & 100.0\% & 67 \\
+\hline
+\end{longtable}
+

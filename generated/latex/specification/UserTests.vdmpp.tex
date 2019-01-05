@@ -1,0 +1,185 @@
+\begin{vdmpp}[breaklines=true]
+class UserTests is subclass of Tests
+types
+-- TODO Define types here
+values
+
+instance variables
+company : Company := new Company();
+client : Client := new Client("Ruben","povoa", company);
+user : User := new User("utilizador", "password", client);
+user2 : User := new User("utilizador2", "password", client);
+document1 : Document := new Document(6, "PB", "title",  user);
+documentPB : [Document] := nil;
+documentCor : [Document] := nil;
+document : [Document] := nil;
+operations
+(*@
+\label{testGetBalance:16}
+@*)
+private testGetBalance : () ==> ()
+testGetBalance() ==
+(
+assert(user.getBalance() = 0);
+);
+
+(*@
+\label{testAddAndWithdrawBalance:22}
+@*)
+private testAddAndWithdrawBalance : () ==> ()
+testAddAndWithdrawBalance() ==
+(
+user.addToBalance(33);
+assert(user.getBalance() = 33);
+user.withdrawFromBalance(11);
+assert(user.getBalance() = 22);
+);
+
+(*@
+\label{testGetUsername:31}
+@*)
+private testGetUsername : () ==> ()
+testGetUsername() ==
+(
+assert(user.getUsername() = "utilizador");
+);
+
+(*@
+\label{testAddDocument:37}
+@*)
+private testAddDocument : () ==> ()
+testAddDocument() ==
+(
+user2.addDocument(document1);
+assert(( document1 in set user2.getDocuments() ) = true);
+);
+
+(*@
+\label{testCreateBlackDocument:44}
+@*)
+private testCreateBlackDocument : () ==> ()
+testCreateBlackDocument() ==
+(
+documentPB := user.createBlackDocument(6, "title_pb") ;
+assert(( documentPB in set user.getDocuments() ) = true);
+);
+
+(*@
+\label{testCreateColorDocument:51}
+@*)
+private testCreateColorDocument : () ==> ()
+testCreateColorDocument() ==
+(
+documentPB := user.createBlackDocument(6, "title_pb") ;
+assert(( documentPB in set user.getDocuments() ) = true);
+documentCor := user.createColorDocument(6, "title_cor") ;
+assert( (documentCor in set user.getDocuments()) = true);
+);
+
+(*@
+\label{testRemoveDocument:60}
+@*)
+private testRemoveDocument : () ==> ()
+testRemoveDocument() ==
+(
+user.removeDocument(document1);
+assert(( document1 in set user.getDocuments() ) = false);
+);
+
+(*@
+\label{testGetDocument:67}
+@*)
+private testGetDocument : () ==> ()
+testGetDocument() == 
+(
+ document := user.getDocument(document1.title, document1.num_sheets);
+ assert(document = document1);
+);
+
+(*@
+\label{testGetPassword:74}
+@*)
+private testGetPassword : () ==> ()
+testGetPassword() ==
+(
+assert(user.getPassword() = "password");
+);
+
+(*@
+\label{testEnoughBalance:80}
+@*)
+private testEnoughBalance: () ==> ()
+testEnoughBalance() ==
+(
+user.addToBalance(10);
+assert(user.enoughBalance(11) = false);
+assert(user.enoughBalance(8) = true); 
+);
+
+(*@
+\label{testHasDocument:88}
+@*)
+private testHasDocument : () ==> ()
+testHasDocument() ==
+(
+assert(user.hasDocument(document1) = true)
+);
+(*@
+\label{main:93}
+@*)
+public static main: () ==> ()
+ main() ==
+ (
+ new UserTests().testGetBalance();
+ new UserTests().testAddAndWithdrawBalance();
+ new UserTests().testGetUsername();
+ new UserTests().testAddDocument();
+ new UserTests().testCreateBlackDocument();
+ new UserTests().testCreateColorDocument();
+ new UserTests().testRemoveDocument();
+ new UserTests().testGetDocument();
+ new UserTests().testGetPassword();
+ new UserTests().testEnoughBalance();
+ new UserTests().testHasDocument();
+ );
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end UserTests
+\end{vdmpp}
+\bigskip
+\begin{longtable}{|l|r|r|r|}
+\hline
+Function or operation & Line & Coverage & Calls \\
+\hline
+\hline
+\hyperref[main:93]{main} & 93&100.0\% & 4 \\
+\hline
+\hyperref[testAddAndWithdrawBalance:22]{testAddAndWithdrawBalance} & 22&100.0\% & 2 \\
+\hline
+\hyperref[testAddDocument:37]{testAddDocument} & 37&100.0\% & 2 \\
+\hline
+\hyperref[testCreateBlackDocument:44]{testCreateBlackDocument} & 44&100.0\% & 2 \\
+\hline
+\hyperref[testCreateColorDocument:51]{testCreateColorDocument} & 51&100.0\% & 2 \\
+\hline
+\hyperref[testEnoughBalance:80]{testEnoughBalance} & 80&100.0\% & 2 \\
+\hline
+\hyperref[testGetBalance:16]{testGetBalance} & 16&100.0\% & 2 \\
+\hline
+\hyperref[testGetDocument:67]{testGetDocument} & 67&100.0\% & 2 \\
+\hline
+\hyperref[testGetPassword:74]{testGetPassword} & 74&100.0\% & 2 \\
+\hline
+\hyperref[testGetUsername:31]{testGetUsername} & 31&100.0\% & 6 \\
+\hline
+\hyperref[testHasDocument:88]{testHasDocument} & 88&100.0\% & 2 \\
+\hline
+\hyperref[testRemoveDocument:60]{testRemoveDocument} & 60&100.0\% & 2 \\
+\hline
+\hline
+UserTests.vdmpp & & 100.0\% & 30 \\
+\hline
+\end{longtable}
+

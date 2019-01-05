@@ -1,0 +1,101 @@
+\begin{vdmpp}[breaklines=true]
+class DocumentTests is subclass of Tests
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+company : Company := new Company();
+client : Client := new Client("Ruben","povoa", company);
+user : User := new User("utilizador", "password", client);
+document1 : Document := new Document(6, "PB", "title", user);
+document2 : Document := new Document(6, "Cor", "title", user);
+typeDocument : TypeDocument := new TypeDocument();
+operations
+(*@
+\label{testTotalPrice:14}
+@*)
+
+public testTotalPrice : () ==> ()
+testTotalPrice() ==
+(
+ assert( document1.getTotalPrice() = document1.getNumSheets() * typeDocument.getPrice(document1.getType()));
+);
+(*@
+\label{testgetType:20}
+@*)
+
+public testgetType : () ==> ()
+testgetType() ==
+(
+ assert( document1.getType() = "PB");
+);
+(*@
+\label{testgetNumSheets:26}
+@*)
+
+public testgetNumSheets : () ==> ()
+testgetNumSheets() ==
+(
+ assert( document1.getNumSheets() = 6);
+(*@
+\label{main:31}
+@*)
+);
+(*@
+\label{testGetUser:32}
+@*)
+
+public testGetUser: () ==> ()
+testGetUser() ==
+(
+assert(document1.getUser() = user);
+);
+
+(*@
+\label{testEquals:39}
+@*)
+public testEquals: () ==> ()
+testEquals() ==
+(
+assert(Document`equals(document1, document2) = false);
+assert(Document`equals(document1, document1) = true);
+);
+public static main: () ==> ()
+ main() ==
+ (
+  new DocumentTests().testgetType();
+  new DocumentTests().testTotalPrice();
+  new DocumentTests().testgetNumSheets();
+  new DocumentTests().testGetUser();
+  new DocumentTests().testEquals();
+ );
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end DocumentTests
+\end{vdmpp}
+\bigskip
+\begin{longtable}{|l|r|r|r|}
+\hline
+Function or operation & Line & Coverage & Calls \\
+\hline
+\hline
+\hyperref[main:31]{main} & 31&100.0\% & 3 \\
+\hline
+\hyperref[testEquals:39]{testEquals} & 39&100.0\% & 3 \\
+\hline
+\hyperref[testGetUser:32]{testGetUser} & 32&100.0\% & 3 \\
+\hline
+\hyperref[testTotalPrice:14]{testTotalPrice} & 14&100.0\% & 9 \\
+\hline
+\hyperref[testgetNumSheets:26]{testgetNumSheets} & 26&100.0\% & 3 \\
+\hline
+\hyperref[testgetType:20]{testgetType} & 20&100.0\% & 3 \\
+\hline
+\hline
+DocumentTests.vdmpp & & 100.0\% & 24 \\
+\hline
+\end{longtable}
+
