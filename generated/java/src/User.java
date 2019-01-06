@@ -114,6 +114,14 @@ public class User {
     return balance.longValue() >= amount.longValue();
   }
 
+  public Printer loginToPrinter() {
+
+    Printer printer = null;
+    printer = null;
+    printer = client.getFreePrinter();
+    return printer;
+  }
+
   public User() {}
 
   public static Boolean cg_equals(final User user1, final User user2) {
