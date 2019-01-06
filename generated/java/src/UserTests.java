@@ -85,11 +85,14 @@ public class UserTests extends Tests {
 
     Printer printer = null;
     Printer printer2 = null;
+    Printer printerLogged = null;
     printer = client.getFreePrinter();
     assert_(Utils.equals(printer, null));
     printer = new Printer("FEUP", client);
-    printer2 = client.getFreePrinter();
+    printer2 = user.loginToPrinter();
     assert_(Utils.equals(printer, printer2));
+    printerLogged = user.loginToPrinter();
+    assert_(Utils.equals(printer, printerLogged));
   }
 
   public static void main() {
