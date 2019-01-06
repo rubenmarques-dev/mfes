@@ -1,0 +1,56 @@
+class EmployeeTests is subclass of Tests
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+company : Company := new Company();
+client : Client := new Client("Ruben","povoa", company);
+printer : Printer := new Printer("FEUP", client);
+printer2 : Printer := new Printer("Fep", client);
+employee : Employee := new Employee("Joao");
+problem1 : [Problem] := nil;
+problem2 : [Problem] := nil;
+problems : set of Problem := {};
+operations
+
+public testNumProblems : () ==> ()
+testNumProblems() ==
+(
+assert(employee.getNumProblems() = 0);
+problem1:= new Problem("descricao", printer, employee);
+assert(employee.getNumProblems() = 1);
+problem2 := new Problem("descricao1", printer2, employee);
+assert(employee.getNumProblems() = 2);
+employee.removeProblem(problem2);
+assert(employee.getNumProblems() = 1);
+);
+
+public testProblemsToSolve: () ==> ()
+testProblemsToSolve() ==
+(
+problem1:= new Problem("descricao", printer, employee);
+problem2 := new Problem("descricao1", printer2, employee);
+problems := employee.getProblemsToSolve();
+assert(card problems = 2);
+
+employee.solveProblem(problem1);
+problems := employee.getProblemsToSolve();
+assert(card problems = 1);
+problems := employee.getProblemsSolved();
+assert(card problems = 1);
+assert(problem1 in set problems);
+);
+
+
+public static main: () ==> ()
+	main() ==
+	(
+		new EmployeeTests().testNumProblems();
+		new EmployeeTests().testProblemsToSolve();
+	);
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end EmployeeTests
