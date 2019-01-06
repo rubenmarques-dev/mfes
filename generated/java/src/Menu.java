@@ -170,7 +170,8 @@ public class Menu {
             System.out.println("[4] Criar Impressora");
             System.out.println("[5] Apagar Impressora");
             System.out.println("[6] Listar Impressoras");
-            System.out.println("[7] Atrás");
+            System.out.println("[7] Listar Impressoras para Manutencao");
+            System.out.println("[7] Atras");
 
             System.out.print("Insira a sua escolha: ");
             //selection = ++testint;
@@ -182,9 +183,11 @@ public class Menu {
             case 2: return console.submenuDeleteUser(console);
             case 3: return console.submenuSelectUser(console);
             case 4: return console.submenuCreatePrinter(console);
+            case 5: return console.submenuDeletePrinter(console);
+            case 6: return console.submenuListPrinter(console);
             case 7: return console.submenuClient(console);
             default:
-            	System.out.println("A escolha é inválida!");
+            	System.out.println("A escolha e invalida!");
             }
         } while (selection != 7);
         return console;
@@ -284,6 +287,54 @@ public class Menu {
         return console.submenuClientSelected(console);
     }
     
+    private Menu submenuDeletePrinter(Menu console) {
+        System.out.println("Apagar impressora");
+       
+        int selection = 0;
+        if(this.selectedClient.getPrinters().size() == 0) {
+        	System.out.println("Não há mais impressoras para apagar");
+        	return console.submenuClientSelected(console);
+        }
+        int i = 1;
+        for(Iterator it = this.selectedClient.getPrinters().iterator(); it.hasNext();) {
+        	Printer printer = (Printer) it.next();
+        	System.out.println("[" + i + "] " + printer.toString());
+        	i++;
+        }
+        Scanner input = new Scanner(System.in);
+        selection = input.nextInt();
+        i = 1;
+        for(Iterator it = this.selectedClient.getPrinters().iterator(); it.hasNext();) {
+        	Printer printer = (Printer) it.next();
+        	if(selection == i) {
+        		this.selectedClient.removePrinter(printer);
+        		break;
+        	}
+        	i++;
+        }
+        
+        return console.submenuClientSelected(console);
+    }
+    
+    private Menu submenuListPrinter(Menu console) {
+        System.out.println("Pressione 0 para voltar atras");
+        
+        int selection = 0;
+
+        do {
+	        int i = 1;
+	        for(Iterator it = this.selectedClient.getPrinters().iterator(); it.hasNext();) {
+	        	Printer printer = (Printer) it.next();
+	        	System.out.println("[" + i + "] " + printer.toString());
+	        	i++;
+	        }
+	        Scanner input = new Scanner(System.in);
+	        selection = input.nextInt();
+	        
+	        } while(selection!=0);
+        return console.submenuClientSelected(console);
+    }
+    
     private Menu submenuUserSelected(Menu console) {
         System.out.println("UTILIZADOR");
 
@@ -293,7 +344,8 @@ public class Menu {
             System.out.println("[1] Criar Documento");
             System.out.println("[2] Apagar Documento");
             System.out.println("[3] Login Impressora Livre");
-            System.out.println("[4] Atrás");
+            System.out.println("[4] Carregar Saldo");
+            System.out.println("[5] Atrás");
 
             System.out.print("Insira a sua escolha: ");
             //selection = ++testint;
@@ -304,11 +356,12 @@ public class Menu {
             case 1: return console.submenuCreateDocument(console);
             case 2: return console.submenuDeleteDocument(console);
             case 3: return console.submenuLoginPrinter(console);
-            case 4: return console.submenuClientSelected(console);
+            case 4: return console.submenuAddBalance(console);
+            case 5: return console.submenuClientSelected(console);
             default:
             	System.out.println("A escolha é inválida!");
             }
-        } while (selection != 7);
+        } while (selection != 5);
         return console;
     }
     
@@ -380,7 +433,7 @@ public class Menu {
         	return console.submenuUserSelected(console);
         }
     	
-    	System.out.println("Selecione o Documento a Imprimir ou 0(zero) para voltar atrás: ");
+    	System.out.println("Selecione o Documento a Imprimir ou 0(zero) para fazer logout: ");
     	
         this.selectedPrinter.login(this.selectedUser);
 
@@ -394,6 +447,10 @@ public class Menu {
         }
         Scanner input = new Scanner(System.in);
         selection = input.nextInt();
+        if(selection == 0) {
+        	this.selectedPrinter.logout();
+        	return console.submenuUserSelected(console);
+        }
         i = 1;
         for(Iterator it = this.selectedUser.getDocuments().iterator(); it.hasNext();) {
         	Document document = (Document) it.next();
@@ -406,12 +463,7 @@ public class Menu {
         
         String type = this.selectedDocument.getType();
     	
-        System.out.println(this.selectedUser.getBalance().intValue());
-        System.out.println(this.selectedDocument.getTotalPrice().intValue());
-        
-        this.selectedUser.addToBalance(50);
-        
-        if(this.selectedUser.getBalance().intValue() <= this.selectedDocument.getTotalPrice().intValue()) {
+        if(this.selectedUser.getBalance().intValue() < this.selectedDocument.getTotalPrice().intValue()) {
     		System.out.println("Não tem saldo suficiente para imprimir, carregue primeiro\n");
         	return console.submenuUserSelected(console);
     	}
@@ -419,13 +471,29 @@ public class Menu {
         if(type == "PB") {
         	if(this.selectedPrinter.possiblePrintBlackDocument(this.selectedDocument)) {
         		this.selectedPrinter.printDocument(this.selectedDocument);
+        		System.out.println("Ficou com " + this.selectedUser.getBalance().intValue() + " de saldo.");
         	}
         }
         else if(type == "Cor") {
         	if(this.selectedPrinter.possiblePrintColorDocument(this.selectedDocument)) {
         		this.selectedPrinter.printDocument(this.selectedDocument);
+        		System.out.println("Ficou com " + this.selectedUser.getBalance().intValue() + " de saldo.");
         	}
         }
+        
+        return console.submenuUserSelected(console);
+    }
+    
+    private Menu submenuAddBalance(Menu console) {
+        System.out.println("Carregar saldo de impressao");
+        
+        System.out.println("Introduza o saldo que deseja carregar: \n");
+    	Scanner scanner_balance = new Scanner(System.in);
+    	String balance = scanner_balance.nextLine();
+    	System.out.println("\n");
+    	
+    	this.selectedUser.addToBalance(Integer.parseInt(balance));
+    	System.out.println("Ficou com " + this.selectedUser.getBalance().intValue() + " de saldo.");
         
         return console.submenuUserSelected(console);
     }
