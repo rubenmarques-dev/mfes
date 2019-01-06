@@ -1,0 +1,157 @@
+class Printer
+types
+public String = seq of char;
+values
+
+instance variables
+	public location : String;
+	public sheets_remaining : nat;
+	public black_remaining : nat;
+	public cyan_remaining : nat;
+	public yellow_remaining : nat;
+	public magenta_remaining : nat;
+	public functional : bool;
+	public userLogged : [User] := nil;
+	public client : [Client];
+operations
+		public Printer: String * Client  ==> Printer
+		Printer(locationC, clientC) == (
+			location := locationC;
+			sheets_remaining := 100;
+			black_remaining := 100;
+			cyan_remaining := 100;
+			yellow_remaining := 100;
+			magenta_remaining := 100;
+			functional := true;
+			client := clientC;
+			client.addPrinter(self);
+		);
+		
+		public checkValidPrintBlack :nat1 ==> bool
+		checkValidPrintBlack(sheets) ==
+			return black_remaining>=sheets and sheets_remaining>=sheets
+				post RESULT=true or RESULT=false;
+				
+		public checkValidPrintColor :nat1 ==> bool
+		checkValidPrintColor(sheets) == 
+			return black_remaining>=sheets and cyan_remaining>=sheets and yellow_remaining>=sheets and 
+						magenta_remaining>=sheets and sheets_remaining>=sheets
+				post RESULT=true or RESULT=false;
+				
+		public checkFunctionalPrinter : () ==> bool
+		checkFunctionalPrinter() ==
+			return functional=true
+				post RESULT=true or RESULT=false;
+				
+				
+	 	public login: User ==> ()
+		login(u) ==
+	 		userLogged := if userLogged = nil then u else userLogged;
+	 		
+	 	public getUserLogged: () ==> [User]
+		getUserLogged() ==
+	 		return userLogged
+	 		post RESULT = userLogged;
+
+	public logout: () ==> ()
+	logout() ==
+	 userLogged := nil
+	 pre userLogged <> nil
+	 post userLogged = nil;
+	
+	public isFree: () ==> bool
+	isFree() ==
+		return userLogged = nil
+		post RESULT = true or RESULT = false;		
+		
+	public possiblePrintBlackDocument: Document ==> bool
+	possiblePrintBlackDocument(document) ==
+		return document.getTotalPrice() <= document.getUser().getBalance() 
+			and checkValidPrintBlack(document.getNumSheets())
+			and functional
+			and userLogged = document.getUser();
+	
+		public possiblePrintColorDocument: Document ==> bool
+		possiblePrintColorDocument(document) ==
+		return document.getTotalPrice() <= document.getUser().getBalance() 
+			and checkValidPrintColor(document.getNumSheets())
+			and functional
+			and userLogged = document.getUser();
+			
+		
+		public printDocument : Document ==> ()
+		printDocument(document) ==
+		(
+		(if document.getType() = "PB"
+			then printBlackDocument(document)
+			else printColorDocument(document));
+				stillFunctional();
+		);
+		
+		public printBlackDocument : Document ==> ()
+		printBlackDocument(document) ==
+		(
+		sheets_remaining := sheets_remaining - document.getNumSheets();
+		black_remaining := black_remaining - document.getNumSheets();
+		document.getUser().withdrawFromBalance(document.getTotalPrice())
+		)
+		pre sheets_remaining >= document.num_sheets and black_remaining >= document.num_sheets;
+		
+		public printColorDocument : Document ==> ()
+		printColorDocument(document) ==
+		(
+		sheets_remaining := sheets_remaining - document.getNumSheets();
+		black_remaining := black_remaining - document.getNumSheets();
+		cyan_remaining := cyan_remaining - document.getNumSheets();
+		yellow_remaining := yellow_remaining - document.getNumSheets();
+		magenta_remaining := magenta_remaining - document.getNumSheets();
+		document.getUser().withdrawFromBalance(document.getTotalPrice());
+
+		)
+		pre sheets_remaining >= document.num_sheets and black_remaining >= document.num_sheets;
+		
+		public stillFunctional: () ==> ()
+		stillFunctional() == 
+		(
+		if    sheets_remaining < 10
+			 or black_remaining < 10
+			 or cyan_remaining < 10
+			 or yellow_remaining < 10
+			 or magenta_remaining < 10
+			 then (
+			 (
+			 dcl problem : Problem;
+			 dcl employee : Employee;
+			 employee := client.company.getEmployeeLessBusy();
+			 problem := new Problem("resources needed", self, employee);
+			 ))
+		);
+		
+		public fullRepair: () ==> ()
+		fullRepair() ==
+		(
+		sheets_remaining := 100;
+		black_remaining := 100;
+		cyan_remaining := 100;
+		yellow_remaining := 100;
+		magenta_remaining := 100;
+		functional := true;
+		)
+		pre functional = false
+		post sheets_remaining = 100
+		and black_remaining = 100
+		and cyan_remaining = 100
+		and yellow_remaining = 100
+		and magenta_remaining = 100
+		and functional = true;
+		
+		
+
+		
+functions
+public equals : Printer * Printer -> bool
+equals(printer1, printer2) ==
+		printer1.location = printer2.location;
+traces
+-- TODO Define Combinatorial Test Traces here
+end Printer

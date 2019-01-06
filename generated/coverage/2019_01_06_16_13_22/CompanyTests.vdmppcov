@@ -1,0 +1,83 @@
+class CompanyTests is subclass of Tests
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+companyEmpty : Company := new Company();
+company : Company := new Company();
+client : Client := new Client("Ruben","povoa", company);
+printer : Printer := new Printer("FEUP", client);
+employee : Employee := new Employee("Zacarias");
+problem1 : [Problem] := nil;
+employee1 : [Employee] := nil;
+employee2 : [Employee] := nil;
+operations
+private testCompany : () ==> ()
+testCompany() ==
+(
+	assert(companyEmpty.getClients() = {});
+	assert(card company.getClients() = 1);
+	assert(card company.getEmployees() = 2);
+);
+private addClient : () ==> ()
+addClient() == 
+(
+	companyEmpty.addClient(client);
+	assert(client  in set companyEmpty.getClients());
+);
+private removeClient : () ==> ()
+removeClient() == 
+(
+	company.removeClient(client);
+	assert(client not in set company.getClients());
+);
+
+private addEmployee : () ==> ()
+addEmployee() == 
+(
+	company.addEmployee(employee);
+	assert(employee  in set company.getEmployees());
+);
+private removeEmployee : () ==> ()
+removeEmployee () == 
+(
+	company.addEmployee(employee);
+	assert(employee in set company.getEmployees());
+	company.removeEmployee(employee);
+	assert(employee not in set company.getEmployees());
+);
+private testLessBusy : () ==> ()
+testLessBusy() == 
+(
+employee1 := company.getEmployeeLessBusy();
+assert(employee1.name = "Joao");
+problem1 := new Problem("problem1", printer, employee1);
+employee2 := company.getEmployeeLessBusy();
+assert(employee2.name = "Carlos");
+);
+
+public testGetEmployee : () ==> ()
+testGetEmployee() ==
+(
+employee1 := company.getEmployee("Joao");
+assert(employee1.name = "Joao");
+);
+
+public static main: () ==> ()
+	main() ==
+	(
+		new CompanyTests().testCompany();
+		new CompanyTests().addClient();
+		new CompanyTests().removeClient();
+		new CompanyTests().addEmployee();
+		new CompanyTests().removeEmployee();
+		new CompanyTests().testLessBusy();
+		new CompanyTests().testGetEmployee();
+		
+	);
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end CompanyTests

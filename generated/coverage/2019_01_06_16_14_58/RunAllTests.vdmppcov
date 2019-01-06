@@ -1,0 +1,24 @@
+class RunAllTests
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+
+operations
+public static main: () ==> ()
+	main() ==
+	(
+		new ClientTests().main();
+		new CompanyTests().main();
+		new DocumentTests().main();
+		new EmployeeTests().main();
+		new PrinterTests().main();
+		new ProblemTests().main();
+		new TypeDocumentTests().main();
+		new UserTests().main();
+	);
+functions
+traces
+-- TODO Define Combinatorial Test Traces here
+end RunAllTests

@@ -96,12 +96,8 @@ private testLoginToPrinter: () ==> ()
 testLoginToPrinter() ==
 (
 dcl printer : [Printer];
-dcl printer2 : [Printer];
 printer := client.getFreePrinter();
 assert(printer = nil);
-printer := new Printer("FEUP", client);
-printer2 := client.getFreePrinter();
-assert(printer = printer2);
 );
 public static main: () ==> ()
 	main() ==
