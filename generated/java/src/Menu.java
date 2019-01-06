@@ -32,7 +32,8 @@ public class Menu {
             System.out.println("[2] Funcion�rios");
             System.out.println("[3] Relat�rios");
             System.out.println("[4] Gerar conteudo");
-            System.out.println("[5] Exit");
+            System.out.println("[5] Report");
+            System.out.println("[6] Exit");
 
 
             System.out.print("Insira a sua escolha: ");
@@ -44,12 +45,48 @@ public class Menu {
             case 2: return console.submenuEmployee(console);
             case 3: return console.submenuEmployee(console);
             case 4: this.generateContent(); return console.mainMenu(console);
-            case 5: return console;
+            case 5: this.generateContent(); return console.companyReportMenu(console);
+            case 6: return console;
             default:
                 System.out.println("A escolha é inválida!");
             }
         } while (selection != 4);
         return console;
+    }
+    
+    private Menu companyReportMenu(Menu console) {
+    	 System.out.println("");
+    		System.out.println("====== INFORMACOES CLIENTES ======");
+    	   System.out.println("Numero clientes : " + this.company.getClients().size());
+    	 
+    	   for(Iterator it = this.company.getClients().iterator(); it.hasNext();) {
+    		   System.out.println("");
+           	Client client = (Client) it.next();
+           	System.out.println("Name: " + client.name);
+        	System.out.println("Location: " + client.location);
+        	System.out.println("Utilizadores: " + client.getUsers().size());
+        	System.out.println("Impressoras: " + client.getPrinters().size());
+        	if(client.getNoFunctionalPrinters().size() != 0) {
+        		System.out.println("Impressoras avariadas: " + client.getPrinters().size());
+        	}  	
+           }
+    	   System.out.println("");
+    	   System.out.println("====== INFORMACOES EMPREGADOS ======");
+    	   System.out.println("Numero empregados : " + this.company.getEmployees().size());
+    	
+    	   for(Iterator it = this.company.getEmployees().iterator(); it.hasNext();) {
+    		   System.out.println("");
+    		Employee employee = (Employee) it.next();
+           	System.out.println("Name: " + employee.name);
+        	System.out.println("Problemas por resolver: " + employee.getProblemsToSolve().size());
+        	System.out.println("Problemas resolvidos: " + employee.getProblemsSolved().size());
+           }
+    	   
+    	   System.out.println("");
+    	   System.out.println("");
+    	   return console.mainMenu(console);
+    	   
+    
     }
     
     private Menu submenuClient(Menu console) {
@@ -80,6 +117,8 @@ public class Menu {
         return console;
     }
     
+   
+
     private Menu submenuCreateClient(Menu console) {
         System.out.println("Criar cliente");
         
@@ -170,7 +209,7 @@ public class Menu {
             System.out.println("[4] Criar Impressora");
             System.out.println("[5] Apagar Impressora");
             System.out.println("[6] Listar Impressoras");
-            System.out.println("[7] Atrás");
+            System.out.println("[8] Atrás");
 
             System.out.print("Insira a sua escolha: ");
             //selection = ++testint;
@@ -182,13 +221,71 @@ public class Menu {
             case 2: return console.submenuDeleteUser(console);
             case 3: return console.submenuSelectUser(console);
             case 4: return console.submenuCreatePrinter(console);
-            case 7: return console.submenuClient(console);
+            case 7: return console.clientReportMenu(console);
+            case 8: return console.submenuClient(console);
             default:
             	System.out.println("A escolha é inválida!");
             }
         } while (selection != 7);
         return console;
     }
+    
+    
+    private Menu clientReportMenu(Menu console) {
+      	 System.out.println("");
+      		System.out.println("====== INFORMACOES CLIENTE ======");
+      		
+      		System.out.println("Name: " + this.selectedClient.name);
+          	System.out.println("Location: " + this.selectedClient.location);
+          	System.out.println("Utilizadores: " + this.selectedClient.getUsers().size());
+          	System.out.println("Impressoras: " + this.selectedClient.getPrinters().size());
+          	if(this.selectedClient.getNoFunctionalPrinters().size() != 0) {
+          		System.out.println("Impressoras avariadas: " + this.selectedClient.getPrinters().size());
+          		
+          	}  	
+          	
+          	System.out.println("====== INFORMACOES UTILIZADORES ======");
+      	   System.out.println("Numero utilizadores : " + this.selectedClient.getUsers().size());
+      	 
+      	   for(Iterator it = this.selectedClient.getUsers().iterator(); it.hasNext();) {
+      		   System.out.println("");
+             	User user = (User) it.next();
+             	System.out.println("Username: " + user.username);
+             		   System.out.println("");
+             		User user = (User) it.next();
+                   
+                   System.out.println("Funcional: " + ( printer.functional ? "Sim" : "Nao"));
+                 	System.out.println("Folhas: " + printer.sheets_remaining);
+                 	System.out.println("Preto: " + printer.black_remaining);
+                 	System.out.println("Magenta: " + printer.magenta_remaining);
+                 	System.out.println("Amarelo: " + printer.yellow_remaining);
+                 	System.out.println("Cyan: " + printer.cyan_remaining);
+                    
+             	   
+             
+             }
+      	   System.out.println("");
+      	   System.out.println("====== INFORMACOES IMPRESSORASS ======");
+      	   System.out.println("Numero impressoras : " + this.selectedClient.getPrinters().size());
+      	
+      	   for(Iterator it = this.selectedClient.getPrinters().iterator(); it.hasNext();) {
+      		   System.out.println("");
+      		Printer printer = (Printer) it.next();
+             System.out.println("Name: " + printer.location);
+            System.out.println("Funcional: " + ( printer.functional ? "Sim" : "Nao"));
+          	System.out.println("Folhas: " + printer.sheets_remaining);
+          	System.out.println("Preto: " + printer.black_remaining);
+          	System.out.println("Magenta: " + printer.magenta_remaining);
+          	System.out.println("Amarelo: " + printer.yellow_remaining);
+          	System.out.println("Cyan: " + printer.cyan_remaining);
+             }
+      	   
+      	   System.out.println("");
+      	   System.out.println("");
+      	   return console.submenuClient(console);
+      	   
+      
+      }
     
     private Menu submenuCreateUser(Menu console) {
         System.out.println("Criar utilizador");
@@ -642,9 +739,11 @@ public class Menu {
     	Document document2 = new Document(10,  "Cor","titulo2", user3);
     	Document document3 = new Document(91,  "Cor","titulo3", user4);
     	Document document4 = new Document(6, "PB",  "titulo4", user1);
-    	
-    	
+    
     }
     
+    private void relatorios() {
+    	
+    }
     
 }

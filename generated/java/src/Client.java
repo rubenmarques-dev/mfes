@@ -4,8 +4,8 @@ import org.overture.codegen.runtime.*;
 
 @SuppressWarnings("all")
 public class Client {
-  private String name;
-  private String location;
+  public String name;
+  public String location;
   private VDMSet users;
   private VDMSet printers;
   public Company company = null;
