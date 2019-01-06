@@ -1,0 +1,120 @@
+class ClientTests is subclass of Tests
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+company : Company := new Company();
+clientEmpty : Client := new Client("Empty","povoa", company);
+client : Client := new Client("Ruben","povoa", company);
+client2 : Client := new Client("Pedro","porto" , company);
+user1 : User := new User("Username1","password", client);
+user2 : User := new User("Username2","password", client);
+userAux : [User] := nil;
+printer1 : Printer := new Printer("FEUP", client);
+printer2 : Printer := new Printer("Recepcao", client);
+printerAux : [Printer] := nil;
+printers : set of Printer := {};
+operations
+private testClient : () ==> ()
+testClient() ==
+(
+	assert(card client.getUsers() = 2);
+	assert(card client.getPrinters() = 2);
+	assert(card clientEmpty.getUsers() = 0);
+	assert(card clientEmpty.getPrinters() = 0);
+	assert(clientEmpty.getUsers() = {});
+	assert(clientEmpty.getPrinters() = {});
+);
+private addUser : () ==> ()
+addUser() == 
+(
+	client2.addUser(user1);
+	assert(user1  in set client2.getUsers());
+);
+private removeUser : () ==> ()
+removeUser() == 
+(
+	client.removeUser(user1);
+	assert(user1 not in set client.getUsers());
+);
+private sameClient: () ==> ()
+sameClient() == 
+(
+	assert(Client`equals(client, client));
+);
+
+private differenteClient: () ==> ()
+differenteClient() == 
+(
+	assert( not Client`equals(client, client2));
+);
+
+private addPrinter : () ==> ()
+addPrinter() == 
+(
+	client2.addPrinter(printer1);
+	assert(printer1  in set client2.getPrinters());
+);
+
+private removePrinter : () ==> ()
+removePrinter () == 
+(
+	client.removePrinter(printer1);
+	assert(printer1 not in set client.getPrinters());
+);
+
+private testGetFreePrinter : () ==> ()
+testGetFreePrinter() == 
+(
+printer1.login(user1);
+assert(client.getFreePrinter() = printer2);
+);
+
+private testGetUser : () ==> ()
+testGetUser() == 
+(
+	userAux := client.getUser(user1.username);
+	assert(userAux = user1);
+);
+
+private testGetPrinter : () ==> ()
+testGetPrinter() == 
+(
+	printerAux := client.getPrinter(printer1.location);
+	assert(printerAux = printer1);
+);
+
+private testGetNoFunctionalPrinters: () ==> ()
+testGetNoFunctionalPrinters() ==
+(
+printer1.functional := false;
+printers := client.getNoFunctionalPrinters();
+assert(printer1 in set printers);
+printer2.functional := false;
+printers := client.getNoFunctionalPrinters();
+assert(printer1 in set printers);
+assert(printer2 in set printers);
+);
+
+
+public static main: () ==> ()
+	main() ==
+	(
+		new ClientTests().testClient();
+		new ClientTests().addUser();
+		new ClientTests().removeUser();
+		new ClientTests().addPrinter();
+		new ClientTests().removePrinter();
+		new ClientTests().sameClient();
+		new ClientTests().differenteClient();
+		new ClientTests().testGetFreePrinter();
+		new ClientTests().testGetUser();
+		new ClientTests().testGetPrinter();
+		new ClientTests().testGetNoFunctionalPrinters();
+	);
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end ClientTests

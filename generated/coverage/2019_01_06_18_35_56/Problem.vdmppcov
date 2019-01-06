@@ -1,0 +1,39 @@
+class Problem
+types
+	public String = seq of char;
+	
+values
+-- TODO Define values here
+instance variables
+	public description : String;
+	public solved : bool;
+	public printer : Printer;
+	public employee : Employee;
+operations
+	public Problem: String * Printer * Employee ==> Problem
+	Problem(descriptionC,printerC, employeeC) == (
+			description := descriptionC;
+			printer := printerC;
+			printer.functional := false;
+			employee := employeeC;
+			employee.addProblem(self);
+			solved := false;
+		);
+		
+	public solveIt : () ==> () 
+	solveIt() ==
+		solved :=true
+		pre solved = false
+		post solved = true;
+		
+functions
+public twoProblemsUnsolved : Problem * Problem -> bool
+twoProblemsUnsolved(p1, p2) ==
+		p1.printer = p2.printer and p1.solved = true and p2.solved = true and p1.employee = p2.employee;
+		
+public equals : Problem * Problem -> bool
+equals(p1, p2) ==
+		p1.printer = p2.printer and p1.solved = p2.solved and p1.description = p2.description and p1.employee = p2.employee;
+traces
+-- TODO Define Combinatorial Test Traces here
+end Problem

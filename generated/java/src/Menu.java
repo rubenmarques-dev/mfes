@@ -617,7 +617,7 @@ public class Menu {
 
             switch (selection) {
             case 1: return console.submenuSelectProblem(console);
-           // case 2: return console.submenuSolvedProblems(console);
+            case 2: return console.submenusolvedProblems(console);
             case 3: return console.mainMenu(console);
             default:
             	System.out.println("A escolha é inválida!");
@@ -657,6 +657,30 @@ public class Menu {
         return console.submenuEmployeeSelected(console);
     }
     
+    private Menu submenusolvedProblems(Menu console) {
+      
+        int selection = 0;
+        if(this.selectEmployee.getProblemsSolved().size() == 0) {
+        	System.out.println("Este funcionário nao resolveu nenhum problema!");
+        	return console.submenuEmployeeSelected(console);
+        }else {
+        	  System.out.println("Problemas Resolvidos por este funcionário!");
+              
+        } 
+        	
+        int i = 1;
+        for(Iterator it = this.selectEmployee.getProblemsSolved().iterator(); it.hasNext();) {
+        	Problem problem = (Problem) it.next();
+        	System.out.println("[" + i + "] " + problem.toString());
+        	i++;
+        }
+        Scanner input = new Scanner(System.in);
+        selection = input.nextInt();
+        i = 1;
+ 
+        return console.submenuEmployeeSelected(console);
+    }
+    
     private void generateContent() {
     	Client client1 = new Client("feup", "porto", this.company);
     	Client client2 = new Client("fep", "porto", this.company);
@@ -666,10 +690,27 @@ public class Menu {
     	User user4 = new User("Utilizador4", "password4", client2);
     	User user5 = new User("Utilizador5", "password5", client2);
     	User user6 = new User("Utilizador6", "password6", client2);
-    	Printer printer1 = new Printer("escritório", client1);
-    	Printer printer2 = new Printer("escritório", client1);
-    	Printer printer3 = new Printer("escritório", client2);
+    	user1.addToBalance(300);
+    	user2.addToBalance(100);
+    	user3.addToBalance(50);
+    	user4.addToBalance(500);
+    	Printer printer1 = new Printer("escritório1", client1);
+    	Printer printer2 = new Printer("escritório2", client1);
+    	Printer printer3 = new Printer("escritório3", client1);
+    	Printer printer4 = new Printer("escritório4", client1);
+    	Printer printer5 = new Printer("escritório5", client2);
+    	Printer printer6 = new Printer("escritório6", client2);
     	Problem problem = new Problem("descricao", printer3, this.company.getEmployeeLessBusy());
+    	problem.solved = true;
+    	Problem problem1 = new Problem("descricao1", printer6, this.company.getEmployeeLessBusy());
+    	Problem problem2 = new Problem("descricao2", printer3, this.company.getEmployeeLessBusy());
+    	Problem problem3 = new Problem("descricao3", printer2, this.company.getEmployeeLessBusy());
+    	Problem problem4 = new Problem("descricao4", printer5, this.company.getEmployeeLessBusy());
+    	Document document1 = new Document(5, "PB", "titulo1", user1);
+    	Document document2 = new Document(10,  "Cor","titulo2", user3);
+    	Document document3 = new Document(91,  "Cor","titulo3", user4);
+    	Document document4 = new Document(6, "PB",  "titulo4", user1);
+    	
     	
     }
     
