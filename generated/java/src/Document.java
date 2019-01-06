@@ -84,8 +84,6 @@ public class Document {
         + Utils.toString(price)
         + ", typeDocument := "
         + Utils.toString(typeDocument)
-        + ", user := "
-        + Utils.toString(user)
         + "}";
   }
 }

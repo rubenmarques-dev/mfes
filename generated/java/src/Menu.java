@@ -174,12 +174,12 @@ public class Menu {
             switch (selection) {
             case 1: return console.submenuCreateUser(console);
             case 2: return console.submenuDeleteUser(console);
-            case 3: return console.submenuSelectClient(console);
+            case 3: return console.submenuSelectUser(console);
             case 7: return console.submenuClient(console);
             default:
             	System.out.println("A escolha é inválida!");
             }
-        } while (selection != 4);
+        } while (selection != 7);
         return console;
     }
     
@@ -190,7 +190,7 @@ public class Menu {
     	Scanner scanner_username = new Scanner(System.in);
     	String username = scanner_username.nextLine();
     	System.out.println("\n");
-    	System.out.println("Introduza a localização: \n");
+    	System.out.println("Introduza a password: \n");
     	Scanner scanner_password = new Scanner(System.in);
     	String password = scanner_password.nextLine();
     	System.out.println("\n");   
@@ -258,7 +258,91 @@ public class Menu {
         	i++;
         }
         
-        return console.submenuClientSelected(console);
+        return console.submenuUserSelected(console);
+    }
+    
+    private Menu submenuUserSelected(Menu console) {
+        System.out.println("UTILIZADOR");
+
+        int selection = 0;
+
+        do {
+            System.out.println("[1] Criar Documento");
+            System.out.println("[2] Apagar Documento");
+            System.out.println("[3] Selecionar Documento");
+            System.out.println("[4] Atrás");
+
+            System.out.print("Insira a sua escolha: ");
+            //selection = ++testint;
+            Scanner input = new Scanner(System.in);
+            selection = input.nextInt();
+
+            switch (selection) {
+            case 1: return console.submenuCreateDocument(console);
+            case 2: return console.submenuDeleteDocument(console);
+            case 3: return console.submenuSelectClient(console);
+            case 4: return console.submenuClientSelected(console);
+            default:
+            	System.out.println("A escolha é inválida!");
+            }
+        } while (selection != 7);
+        return console;
+    }
+    
+    private Menu submenuCreateDocument(Menu console) {
+        System.out.println("Criar documento");
+        
+        System.out.println("Introduza o numero de folhas do documento: \n");
+    	Scanner scanner_sheets = new Scanner(System.in);
+    	String sheets = scanner_sheets.nextLine();
+    	System.out.println("\n");
+    	System.out.println("Introduza o tipo do documento (1-preto e branco, 2-cor): \n");
+    	Scanner scanner_type = new Scanner(System.in);
+    	String type = scanner_type.nextLine();
+    	System.out.println("\n");
+    	System.out.println("Introduza o titulo do documento: \n");
+    	Scanner scanner_title = new Scanner(System.in);
+    	String title = scanner_title.nextLine();
+    	System.out.println("\n");
+    	if(type.equals("1"))
+    		type = "PB";
+    	else type = "Cor";
+    	this.selectedUser.addDocument(new Document(Integer.parseInt(sheets), type, title, this.selectedUser));
+        for(Iterator it = this.selectedUser.getDocuments().iterator(); it.hasNext();) {
+        	Document document = (Document) it.next();
+        	System.out.println(document.toString());
+        }
+        
+        return console.submenuUserSelected(console);
+    }
+    
+    private Menu submenuDeleteDocument(Menu console) {
+        System.out.println("Apagar documentos");
+       
+        int selection = 0;
+        if(this.selectedUser.getDocuments().size() == 0) {
+        	System.out.println("Não há mais documentos para apagar");
+        	return console.submenuUserSelected(console);
+        }
+        int i = 1;
+        for(Iterator it = this.selectedUser.getDocuments().iterator(); it.hasNext();) {
+        	Document document = (Document) it.next();
+        	System.out.println("[" + i + "] " + document.toString());
+        	i++;
+        }
+        Scanner input = new Scanner(System.in);
+        selection = input.nextInt();
+        i = 1;
+        for(Iterator it = this.selectedUser.getDocuments().iterator(); it.hasNext();) {
+        	Document document = (Document) it.next();
+        	if(selection == i) {
+        		this.selectedUser.removeDocument(document);
+        		break;
+        	}
+        	i++;
+        }
+        
+        return console.submenuUserSelected(console);
     }
     
     private Menu submenuEmployee(Menu console) {
