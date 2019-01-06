@@ -45,6 +45,18 @@ public class Employee {
     return Utils.copy(problemsToSolve);
   }
 
+  public VDMSet getProblemsSolved() {
+
+    VDMSet problemsToSolve = SetUtil.set();
+    for (Iterator iterator_31 = problems.iterator(); iterator_31.hasNext(); ) {
+      Problem current = (Problem) iterator_31.next();
+      if (Utils.equals(current.solved, true)) {
+        problemsToSolve = SetUtil.union(Utils.copy(problemsToSolve), SetUtil.set(current));
+      }
+    }
+    return Utils.copy(problemsToSolve);
+  }
+
   public Number getNumProblems() {
 
     return problems.size();

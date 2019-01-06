@@ -4,7 +4,7 @@ import org.overture.codegen.runtime.*;
 
 @SuppressWarnings("all")
 public class Client {
-  public String name;
+  private String name;
   private String location;
   private VDMSet users;
   private VDMSet printers;
@@ -94,7 +94,15 @@ public class Client {
     VDMSeq freePrinters = SeqUtil.seq();
     for (Iterator iterator_23 = printers.iterator(); iterator_23.hasNext(); ) {
       Printer currentPrinter = (Printer) iterator_23.next();
+      Boolean andResult_1 = false;
+
       if (Utils.equals(currentPrinter.isFree(), true)) {
+        if (Utils.equals(currentPrinter.functional, true)) {
+          andResult_1 = true;
+        }
+      }
+
+      if (andResult_1) {
         freePrinters = SeqUtil.conc(Utils.copy(freePrinters), SeqUtil.seq(currentPrinter));
       }
     }
@@ -123,15 +131,15 @@ public class Client {
 
   public static Boolean cg_equals(final Client c1, final Client c2) {
 
-    Boolean andResult_1 = false;
+    Boolean andResult_2 = false;
 
     if (Utils.equals(c1.name, c2.name)) {
       if (Utils.equals(c1.location, c2.location)) {
-        andResult_1 = true;
+        andResult_2 = true;
       }
     }
 
-    return andResult_1;
+    return andResult_2;
   }
 
   public String toString() {

@@ -33,6 +33,9 @@ public class EmployeeTests extends Tests {
     employee.solveProblem(problem1);
     problems = employee.getProblemsToSolve();
     assert_(Utils.equals(problems.size(), 1L));
+    problems = employee.getProblemsSolved();
+    assert_(Utils.equals(problems.size(), 1L));
+    assert_(SetUtil.inSet(problem1, problems));
   }
 
   public static void main() {

@@ -52,23 +52,23 @@ public class Document {
 
   public static Boolean cg_equals(final Document d1, final Document d2) {
 
-    Boolean andResult_2 = false;
+    Boolean andResult_3 = false;
 
     if (Utils.equals(d1.type, d2.type)) {
-      Boolean andResult_3 = false;
+      Boolean andResult_4 = false;
 
       if (Utils.equals(d1.title, d2.title)) {
         if (Utils.equals(d1.num_sheets, d2.num_sheets)) {
-          andResult_3 = true;
+          andResult_4 = true;
         }
       }
 
-      if (andResult_3) {
-        andResult_2 = true;
+      if (andResult_4) {
+        andResult_3 = true;
       }
     }
 
-    return andResult_2;
+    return andResult_3;
   }
 
   public String toString() {

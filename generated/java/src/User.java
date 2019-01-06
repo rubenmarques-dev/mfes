@@ -51,8 +51,8 @@ public class User {
 
   public void removeDocument(final Document document) {
 
-    for (Iterator iterator_31 = documents.iterator(); iterator_31.hasNext(); ) {
-      Document curentDocument = (Document) iterator_31.next();
+    for (Iterator iterator_32 = documents.iterator(); iterator_32.hasNext(); ) {
+      Document curentDocument = (Document) iterator_32.next();
       if (Document.cg_equals(curentDocument, document)) {
         documents = SetUtil.diff(Utils.copy(documents), SetUtil.set(curentDocument));
       }
@@ -67,17 +67,17 @@ public class User {
   public Document getDocument(final String title, final Number num_sheets) {
 
     Document document = null;
-    for (Iterator iterator_32 = documents.iterator(); iterator_32.hasNext(); ) {
-      Document current = (Document) iterator_32.next();
-      Boolean andResult_28 = false;
+    for (Iterator iterator_33 = documents.iterator(); iterator_33.hasNext(); ) {
+      Document current = (Document) iterator_33.next();
+      Boolean andResult_29 = false;
 
       if (Utils.equals(current.title, title)) {
         if (Utils.equals(current.num_sheets, num_sheets)) {
-          andResult_28 = true;
+          andResult_29 = true;
         }
       }
 
-      if (andResult_28) {
+      if (andResult_29) {
         document = current;
       }
     }

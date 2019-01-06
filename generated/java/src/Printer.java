@@ -34,52 +34,52 @@ public class Printer {
 
   public Boolean checkValidPrintBlack(final Number sheets) {
 
-    Boolean andResult_4 = false;
-
-    if (black_remaining.longValue() >= sheets.longValue()) {
-      if (sheets_remaining.longValue() >= sheets.longValue()) {
-        andResult_4 = true;
-      }
-    }
-
-    return andResult_4;
-  }
-
-  public Boolean checkValidPrintColor(final Number sheets) {
-
     Boolean andResult_5 = false;
 
     if (black_remaining.longValue() >= sheets.longValue()) {
-      Boolean andResult_6 = false;
-
-      if (cyan_remaining.longValue() >= sheets.longValue()) {
-        Boolean andResult_7 = false;
-
-        if (yellow_remaining.longValue() >= sheets.longValue()) {
-          Boolean andResult_8 = false;
-
-          if (magenta_remaining.longValue() >= sheets.longValue()) {
-            if (sheets_remaining.longValue() >= sheets.longValue()) {
-              andResult_8 = true;
-            }
-          }
-
-          if (andResult_8) {
-            andResult_7 = true;
-          }
-        }
-
-        if (andResult_7) {
-          andResult_6 = true;
-        }
-      }
-
-      if (andResult_6) {
+      if (sheets_remaining.longValue() >= sheets.longValue()) {
         andResult_5 = true;
       }
     }
 
     return andResult_5;
+  }
+
+  public Boolean checkValidPrintColor(final Number sheets) {
+
+    Boolean andResult_6 = false;
+
+    if (black_remaining.longValue() >= sheets.longValue()) {
+      Boolean andResult_7 = false;
+
+      if (cyan_remaining.longValue() >= sheets.longValue()) {
+        Boolean andResult_8 = false;
+
+        if (yellow_remaining.longValue() >= sheets.longValue()) {
+          Boolean andResult_9 = false;
+
+          if (magenta_remaining.longValue() >= sheets.longValue()) {
+            if (sheets_remaining.longValue() >= sheets.longValue()) {
+              andResult_9 = true;
+            }
+          }
+
+          if (andResult_9) {
+            andResult_8 = true;
+          }
+        }
+
+        if (andResult_8) {
+          andResult_7 = true;
+        }
+      }
+
+      if (andResult_7) {
+        andResult_6 = true;
+      }
+    }
+
+    return andResult_6;
   }
 
   public Boolean checkFunctionalPrinter() {
@@ -117,60 +117,60 @@ public class Printer {
 
   public Boolean possiblePrintBlackDocument(final Document document) {
 
-    Boolean andResult_9 = false;
+    Boolean andResult_10 = false;
 
     if (document.getTotalPrice().longValue() <= document.getUser().getBalance().longValue()) {
-      Boolean andResult_10 = false;
+      Boolean andResult_11 = false;
 
       if (checkValidPrintBlack(document.getNumSheets())) {
-        Boolean andResult_11 = false;
+        Boolean andResult_12 = false;
 
         if (functional) {
           if (Utils.equals(userLogged, document.getUser())) {
-            andResult_11 = true;
+            andResult_12 = true;
           }
         }
 
-        if (andResult_11) {
-          andResult_10 = true;
+        if (andResult_12) {
+          andResult_11 = true;
         }
       }
 
-      if (andResult_10) {
-        andResult_9 = true;
+      if (andResult_11) {
+        andResult_10 = true;
       }
     }
 
-    return andResult_9;
+    return andResult_10;
   }
 
   public Boolean possiblePrintColorDocument(final Document document) {
 
-    Boolean andResult_12 = false;
+    Boolean andResult_13 = false;
 
     if (document.getTotalPrice().longValue() <= document.getUser().getBalance().longValue()) {
-      Boolean andResult_13 = false;
+      Boolean andResult_14 = false;
 
       if (checkValidPrintColor(document.getNumSheets())) {
-        Boolean andResult_14 = false;
+        Boolean andResult_15 = false;
 
         if (functional) {
           if (Utils.equals(userLogged, document.getUser())) {
-            andResult_14 = true;
+            andResult_15 = true;
           }
         }
 
-        if (andResult_14) {
-          andResult_13 = true;
+        if (andResult_15) {
+          andResult_14 = true;
         }
       }
 
-      if (andResult_13) {
-        andResult_12 = true;
+      if (andResult_14) {
+        andResult_13 = true;
       }
     }
 
-    return andResult_12;
+    return andResult_13;
   }
 
   public void printDocument(final Document document) {
