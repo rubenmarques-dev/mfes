@@ -6,8 +6,6 @@ public class Menu {
     private int testint = 1;
     
     private Company company = new Company();
-    private Client feup = new Client("FEUP","São João",this.company);
-    private Client inesc = new Client("INESC","São João",this.company);
     private Client selectedClient;
     private User selectedUser;
     private Employee selectEmployee;
@@ -19,20 +17,20 @@ public class Menu {
     public static void main(String[] args) {
     	Menu console = new Menu();
         console = console.mainMenu(console);
-        System.out.println("Obrigado pela preferência, volte sempre!");
+        System.out.println("Obrigado pela preferencia, volte sempre!");
     }
 
     private Menu mainMenu(Menu console) {
-        System.out.println("Bem vindos à gestão do serviço de impressoras");
+        System.out.println("Bem vindos a�gestao do servico de impressoras.");
         
         int selection = 0;
 
         do {
             System.out.println("[1] Clientes");
-            System.out.println("[2] Funcion�rios");
-            System.out.println("[3] Relat�rios");
+            System.out.println("[2] Funcionarios");
+            System.out.println("[3] Relatorios");
             System.out.println("[4] Gerar conteudo");
-            System.out.println("[5] Exit");
+            System.out.println("[5] Sair");
 
 
             System.out.print("Insira a sua escolha: ");
@@ -46,7 +44,7 @@ public class Menu {
             case 4: this.generateContent(); return console.mainMenu(console);
             case 5: return console;
             default:
-                System.out.println("A escolha é inválida!");
+                System.out.println("A escolha e invalida!");
             }
         } while (selection != 4);
         return console;
@@ -61,7 +59,7 @@ public class Menu {
             System.out.println("[1] Criar Cliente");
             System.out.println("[2] Apagar Cliente");
             System.out.println("[3] Selecionar Cliente");
-            System.out.println("[4] Atrás");
+            System.out.println("[4] Atras");
 
             System.out.print("Insira a sua escolha: ");
             //selection = ++testint;
@@ -74,7 +72,7 @@ public class Menu {
             case 3: return console.submenuSelectClient(console);
             case 4: return console.mainMenu(console);
             default:
-            	System.out.println("A escolha é inválida!");
+            	System.out.println("A escolha e invalida!");
             }
         } while (selection != 4);
         return console;
@@ -87,7 +85,7 @@ public class Menu {
     	Scanner scanner_name = new Scanner(System.in);
     	String name = scanner_name.nextLine();
     	System.out.println("\n");
-    	System.out.println("Introduza a localização: \n");
+    	System.out.println("Introduza a localizacao: \n");
     	Scanner scanner_location = new Scanner(System.in);
     	String location = scanner_location.nextLine();
     	System.out.println("\n");   
@@ -105,7 +103,7 @@ public class Menu {
        
         int selection = 0;
         if(this.company.getClients().size() == 0) {
-        	System.out.println("Não há mais clientes para apagar");
+        	System.out.println("Nao ha mais clientes para apagar");
         	return console.submenuClient(console);
         }
         int i = 1;
@@ -134,7 +132,7 @@ public class Menu {
        
         int selection = 0;
         if(this.company.getClients().size() == 0) {
-        	System.out.println("Não há clientes para selecionar, crie um primeiro");
+        	System.out.println("Nao ha clientes para selecionar, crie um primeiro");
         	return console.submenuClient(console);
         }
         int i = 1;
@@ -171,7 +169,7 @@ public class Menu {
             System.out.println("[5] Apagar Impressora");
             System.out.println("[6] Listar Impressoras");
             System.out.println("[7] Listar Impressoras para Manutencao");
-            System.out.println("[7] Atras");
+            System.out.println("[8] Atras");
 
             System.out.print("Insira a sua escolha: ");
             //selection = ++testint;
@@ -185,11 +183,12 @@ public class Menu {
             case 4: return console.submenuCreatePrinter(console);
             case 5: return console.submenuDeletePrinter(console);
             case 6: return console.submenuListPrinter(console);
-            case 7: return console.submenuClient(console);
+            case 7: return console.submenuListNoFunctionalPrinter(console);
+            case 8: return console.submenuClient(console);
             default:
             	System.out.println("A escolha e invalida!");
             }
-        } while (selection != 7);
+        } while (selection != 8);
         return console;
     }
     
@@ -218,7 +217,7 @@ public class Menu {
        
         int selection = 0;
         if(this.selectedClient.getUsers().size() == 0) {
-        	System.out.println("Não há mais utilizadores para apagar");
+        	System.out.println("Nao ha mais utilizadores para apagar");
         	return console.submenuClientSelected(console);
         }
         int i = 1;
@@ -247,7 +246,7 @@ public class Menu {
        
         int selection = 0;
         if(this.selectedClient.getUsers().size() == 0) {
-        	System.out.println("Não há utilizadores para selecionar, crie um primeiro");
+        	System.out.println("Nao ha utilizadores para selecionar, crie um primeiro");
         	return console.submenuClientSelected(console);
         }
         int i = 1;
@@ -274,7 +273,7 @@ public class Menu {
     private Menu submenuCreatePrinter(Menu console) {
         System.out.println("Criar impressora");
         
-        System.out.println("Introduza a localização da impressora: \n");
+        System.out.println("Introduza a localizacao da impressora: \n");
     	Scanner scanner_location = new Scanner(System.in);
     	String location = scanner_location.nextLine();
     	System.out.println("\n");
@@ -292,7 +291,7 @@ public class Menu {
        
         int selection = 0;
         if(this.selectedClient.getPrinters().size() == 0) {
-        	System.out.println("Não há mais impressoras para apagar");
+        	System.out.println("Nao ha mais impressoras para apagar");
         	return console.submenuClientSelected(console);
         }
         int i = 1;
@@ -335,6 +334,25 @@ public class Menu {
         return console.submenuClientSelected(console);
     }
     
+    private Menu submenuListNoFunctionalPrinter(Menu console) {
+        System.out.println("Pressione 0 para voltar atras");
+        
+        int selection = 0;
+
+        do {
+	        int i = 1;
+	        for(Iterator it = this.selectedClient.getNoFunctionalPrinters().iterator(); it.hasNext();) {
+	        	Printer printer = (Printer) it.next();
+	        	System.out.println("[" + i + "] " + printer.toString());
+	        	i++;
+	        }
+	        Scanner input = new Scanner(System.in);
+	        selection = input.nextInt();
+	        
+	        } while(selection!=0);
+        return console.submenuClientSelected(console);
+    }
+    
     private Menu submenuUserSelected(Menu console) {
         System.out.println("UTILIZADOR");
 
@@ -345,7 +363,7 @@ public class Menu {
             System.out.println("[2] Apagar Documento");
             System.out.println("[3] Login Impressora Livre");
             System.out.println("[4] Carregar Saldo");
-            System.out.println("[5] Atrás");
+            System.out.println("[5] Atras");
 
             System.out.print("Insira a sua escolha: ");
             //selection = ++testint;
@@ -359,7 +377,7 @@ public class Menu {
             case 4: return console.submenuAddBalance(console);
             case 5: return console.submenuClientSelected(console);
             default:
-            	System.out.println("A escolha é inválida!");
+            	System.out.println("A escolha e invalida!");
             }
         } while (selection != 5);
         return console;
@@ -397,7 +415,7 @@ public class Menu {
        
         int selection = 0;
         if(this.selectedUser.getDocuments().size() == 0) {
-        	System.out.println("Não há mais documentos para apagar");
+        	System.out.println("Nao ha mais documentos para apagar");
         	return console.submenuUserSelected(console);
         }
         int i = 1;
@@ -423,17 +441,17 @@ public class Menu {
     
     private Menu submenuLoginPrinter(Menu console) {
     	if(this.selectedUser.getDocuments().size() == 0) {
-        	System.out.println("Não há documentos para imprimir, crie um primeiro");
+        	System.out.println("Nao ha documentos para imprimir, crie um primeiro");
         	return console.submenuUserSelected(console);
         }
     	
     	this.selectedPrinter = this.selectedUser.loginToPrinter();
         if(this.selectedPrinter == null){
-        	System.out.println("Não há impressoras para imprimir");
+        	System.out.println("Nao ha impressoras para imprimir");
         	return console.submenuUserSelected(console);
         }
     	
-    	System.out.println("Selecione o Documento a Imprimir ou 0(zero) para fazer logout: ");
+    	System.out.println("Selecione o documento a imprimir ou 0(zero) para fazer logout: ");
     	
         this.selectedPrinter.login(this.selectedUser);
 
@@ -464,7 +482,7 @@ public class Menu {
         String type = this.selectedDocument.getType();
     	
         if(this.selectedUser.getBalance().intValue() < this.selectedDocument.getTotalPrice().intValue()) {
-    		System.out.println("Não tem saldo suficiente para imprimir, carregue primeiro\n");
+    		System.out.println("Nao tem saldo suficiente para imprimir, carregue primeiro\n");
         	return console.submenuUserSelected(console);
     	}
         
@@ -499,15 +517,15 @@ public class Menu {
     }
     
     private Menu submenuEmployee(Menu console) {
-        System.out.println("Funcionário");
+        System.out.println("FUNCIONARIOS");
 
         int selection = 0;
 
         do {
-            System.out.println("[1] Criar Funcionário");
-            System.out.println("[2] Apagar Funcionário");
-            System.out.println("[3] Selecionar Funcionário");
-            System.out.println("[4] Atrás");
+            System.out.println("[1] Criar Funcionario");
+            System.out.println("[2] Apagar Funcionario");
+            System.out.println("[3] Selecionar Funcionario");
+            System.out.println("[4] Atras");
 
             System.out.print("Insira a sua escolha: ");
             //selection = ++testint;
@@ -520,14 +538,14 @@ public class Menu {
             case 3: return console.submenuSelectEmployee(console);
             case 4: return console.mainMenu(console);
             default:
-            	System.out.println("A escolha é inválida!");
+            	System.out.println("A escolha e invalida!");
             }
         } while (selection != 4);
         return console;
     }
     
     private Menu submenuCreateEmployee(Menu console) {
-        System.out.println("Criar funcionário");
+        System.out.println("Criar funcionario");
         
         System.out.println("Introduza o nome: \n");
     	Scanner scanner_name = new Scanner(System.in);
@@ -543,11 +561,11 @@ public class Menu {
     }
     
     private Menu submenuDeleteEmployee(Menu console) {
-        System.out.println("Apagar funcionário");
+        System.out.println("Apagar funcionario");
        
         int selection = 0;
         if(this.company.getEmployees().size() == 0) {
-        	System.out.println("Não há mais funcionários para apagar");
+        	System.out.println("Nao ha mais funcionarios para apagar");
         	return console.submenuEmployee(console);
         }
         int i = 1;
@@ -572,11 +590,11 @@ public class Menu {
     }
     
     private Menu submenuSelectEmployee(Menu console) {
-        System.out.println("Selecione um Employee");
+        System.out.println("Selecione um funcionario");
        
         int selection = 0;
         if(this.company.getEmployees().size() == 0) {
-        	System.out.println("N�o h� employees para selecionar, crie um primeiro");
+        	System.out.println("N�o ha funcionarios para selecionar, crie um primeiro");
         	return console.mainMenu(console);
         }
         int i = 1;
@@ -601,14 +619,14 @@ public class Menu {
     }
     
     private Menu submenuEmployeeSelected(Menu console) {
-        System.out.println("Employee");
+        System.out.println("FUNCIONARIO");
 
         int selection = 0;
 
         do {
             System.out.println("[1] Resolver problema");
             System.out.println("[2] Problemas resolvidos");
-            System.out.println("[3] Atr�s");
+            System.out.println("[3] Atras");
 
             System.out.print("Insira a sua escolha: ");
             //selection = ++testint;
@@ -620,9 +638,9 @@ public class Menu {
             case 2: return console.submenusolvedProblems(console);
             case 3: return console.mainMenu(console);
             default:
-            	System.out.println("A escolha � inv�lida!");
+            	System.out.println("A escolha e invalida!");
             }
-        } while (selection != 7);
+        } while (selection != 3);
         return console;
     }
     
@@ -633,7 +651,7 @@ public class Menu {
        
         int selection = 0;
         if(this.selectEmployee.getProblemsToSolve().size() == 0) {
-        	System.out.println("N�o h� problemas por resolver!");
+        	System.out.println("N�o ha problemas por resolver!");
         	return console.submenuEmployeeSelected(console);
         }
         int i = 1;
