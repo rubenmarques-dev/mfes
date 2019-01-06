@@ -114,11 +114,24 @@ public class Client {
     }
   }
 
+  public Printer userHasPrinter(final User user) {
+
+    Printer printer = null;
+    printer = null;
+    for (Iterator iterator_24 = printers.iterator(); iterator_24.hasNext(); ) {
+      Printer currentPrinter = (Printer) iterator_24.next();
+      if (Utils.equals(currentPrinter.userLogged, user)) {
+        printer = currentPrinter;
+      }
+    }
+    return printer;
+  }
+
   public VDMSet getNoFunctionalPrinters() {
 
     VDMSet noFunctionalPrinters = SetUtil.set();
-    for (Iterator iterator_24 = printers.iterator(); iterator_24.hasNext(); ) {
-      Printer currentPrinter = (Printer) iterator_24.next();
+    for (Iterator iterator_25 = printers.iterator(); iterator_25.hasNext(); ) {
+      Printer currentPrinter = (Printer) iterator_25.next();
       if (Utils.equals(currentPrinter.functional, false)) {
         noFunctionalPrinters =
             SetUtil.union(Utils.copy(noFunctionalPrinters), SetUtil.set(currentPrinter));

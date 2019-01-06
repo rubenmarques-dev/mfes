@@ -25,8 +25,8 @@ public class Employee {
 
   public void removeProblem(final Problem problem) {
 
-    for (Iterator iterator_29 = problems.iterator(); iterator_29.hasNext(); ) {
-      Problem currentProblem = (Problem) iterator_29.next();
+    for (Iterator iterator_30 = problems.iterator(); iterator_30.hasNext(); ) {
+      Problem currentProblem = (Problem) iterator_30.next();
       if (Problem.cg_equals(currentProblem, problem)) {
         problems = SetUtil.diff(Utils.copy(problems), SetUtil.set(currentProblem));
       }
@@ -36,8 +36,8 @@ public class Employee {
   public VDMSet getProblemsToSolve() {
 
     VDMSet problemsToSolve = SetUtil.set();
-    for (Iterator iterator_30 = problems.iterator(); iterator_30.hasNext(); ) {
-      Problem current = (Problem) iterator_30.next();
+    for (Iterator iterator_31 = problems.iterator(); iterator_31.hasNext(); ) {
+      Problem current = (Problem) iterator_31.next();
       if (Utils.equals(current.solved, false)) {
         problemsToSolve = SetUtil.union(Utils.copy(problemsToSolve), SetUtil.set(current));
       }
@@ -48,8 +48,8 @@ public class Employee {
   public VDMSet getProblemsSolved() {
 
     VDMSet problemsToSolve = SetUtil.set();
-    for (Iterator iterator_31 = problems.iterator(); iterator_31.hasNext(); ) {
-      Problem current = (Problem) iterator_31.next();
+    for (Iterator iterator_32 = problems.iterator(); iterator_32.hasNext(); ) {
+      Problem current = (Problem) iterator_32.next();
       if (Utils.equals(current.solved, true)) {
         problemsToSolve = SetUtil.union(Utils.copy(problemsToSolve), SetUtil.set(current));
       }
