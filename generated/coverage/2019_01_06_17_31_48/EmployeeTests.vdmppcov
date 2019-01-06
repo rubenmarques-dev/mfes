@@ -39,7 +39,6 @@ problems := employee.getProblemsToSolve();
 assert(card problems = 1);
 problems := employee.getProblemsSolved();
 assert(card problems = 1);
-assert(problem1 in set problems);
 );
 
 

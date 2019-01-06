@@ -284,7 +284,7 @@ public class Printer {
         + ", userLogged := "
         + Utils.toString(userLogged)
         + ", client := "
-        + Utils.toString(client)
+        + Utils.toString(client.name)
         + "}";
   }
 }

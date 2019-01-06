@@ -98,9 +98,9 @@ public class Problem {
         + ", solved := "
         + Utils.toString(solved)
         + ", printer := "
-        + Utils.toString(printer)
+        + Utils.toString(printer.location)
         + ", employee := "
-        + Utils.toString(employee)
+        + Utils.toString(employee.name)
         + "}";
   }
 }
