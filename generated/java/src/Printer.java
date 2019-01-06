@@ -283,8 +283,6 @@ public class Printer {
         + Utils.toString(functional)
         + ", userLogged := "
         + Utils.toString(userLogged)
-        + ", client := "
-        + Utils.toString(client)
         + "}";
   }
 }

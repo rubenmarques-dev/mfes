@@ -81,6 +81,17 @@ public class UserTests extends Tests {
     assert_(Utils.equals(user2.hasDocument(document1), false));
   }
 
+  private void testLoginToPrinter() {
+
+    Printer printer = null;
+    Printer printer2 = null;
+    printer = client.getFreePrinter();
+    assert_(Utils.equals(printer, null));
+    printer = new Printer("FEUP", client);
+    printer2 = client.getFreePrinter();
+    assert_(Utils.equals(printer, printer2));
+  }
+
   public static void main() {
 
     new UserTests().testGetBalance();
@@ -94,6 +105,7 @@ public class UserTests extends Tests {
     new UserTests().testGetPassword();
     new UserTests().testEnoughBalance();
     new UserTests().testHasDocument();
+    new UserTests().testLoginToPrinter();
   }
 
   public UserTests() {}

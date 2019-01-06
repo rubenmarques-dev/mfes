@@ -98,7 +98,12 @@ public class Client {
         freePrinters = SeqUtil.conc(Utils.copy(freePrinters), SeqUtil.seq(currentPrinter));
       }
     }
-    return ((Printer) freePrinters.get(0));
+    if (Utils.equals(freePrinters.size(), 0L)) {
+      return null;
+
+    } else {
+      return ((Printer) freePrinters.get(0));
+    }
   }
 
   public VDMSet getNoFunctionalPrinters() {
